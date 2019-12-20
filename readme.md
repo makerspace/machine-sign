@@ -7,6 +7,8 @@ Usage
 -----
 For now, just run
 ```bash
+npm install
+npx webpack
 cd dist
 python3 -m http.server
 ```
