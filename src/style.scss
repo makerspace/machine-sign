@@ -1,0 +1,287 @@
+$green: hsl(130, 74%, 36%);
+$green-dark: hsl(130, 67%, 28%);
+$yellow: hsl(49, 87%, 40%);
+$yellow-dark: hsl(49, 67%, 28%);
+$orange: hsl(19, 87%, 40%);
+$orange-dark: hsl(19, 79%, 34%);
+$blue: #3898E5;
+$blue-dark: #1877B7;
+$red: #D12829;
+$red-dark: #A22425;
+$grey: #A1A1A1;
+$grey-dark: #727272;
+$grey2: #555555;
+$grey2-dark: #444444;
+$background: #343434;
+$background: #EEE;
+
+.app-root {
+	display: flex;
+	flex-direction: row;
+	width: 100%;
+}
+
+.settings {
+	width: 40%;
+}
+.preview {
+	background: #111;
+	padding: 20px;
+	flex-grow: 1;
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+}
+
+.sign-access-label {
+	margin: 5mm;
+	display: block;
+	text-align: center;
+	font-size: 20pt;
+}
+
+.sign-root {
+	padding-left: 3mm;
+	padding-right: 3mm;
+	padding-top: 3mm;
+	border-radius: 4px;
+	overflow: hidden;
+	width: 210mm;
+	height: 297mm;
+	color: white;
+	font-family: 'Bitter', sans;
+	background: $background;
+	display: flex;
+	flex-direction: column;
+	justify-content: start;
+
+	h1 {
+		margin: 0mm;
+		font-size: 36pt;
+	}
+
+	h2 {
+		margin: 0mm;
+		font-size: 12pt;
+	}
+
+	.sign-name {
+		//background: #1877B7;
+		padding: 2mm 5mm 5mm 10mm;
+		flex-grow: 0;
+
+		span {
+			margin: 0mm;
+			margin-left: 1mm;
+			font-size: 12pt;
+		}
+	}
+
+	.sign-section {
+		background: $grey;
+		margin-top: 1mm;
+		margin-bottom: 1mm;
+		border-radius: 1mm;
+		overflow: hidden;
+
+		>p {
+			padding-left: 5mm;
+		}
+
+		h2 {
+			padding-bottom: 2mm;
+			padding-top: 2mm;
+			padding-left: 5mm;
+			background: $grey-dark;
+		}
+	}
+
+	.sign-status-outoforder {
+		background: $grey2;
+		h2 {
+			background: $grey2-dark;
+		}
+		p {
+			margin: 5mm;
+			display: block;
+			text-align: center;
+			font-size: 12pt;
+		}
+	}
+
+	.sign-access-course {
+		background: $orange;
+		h2 {
+			background: $orange-dark;
+		}
+	}
+	
+	.sign-access-everyone {
+		background: $green;
+		h2 {
+			background: $green-dark;
+		}
+	}
+
+	#sign-materials-allowed {
+		background: $green;	
+		h2 {
+			background: $green-dark;
+		}
+	}
+
+	#sign-materials-prohibited {
+		background: $red;	
+		h2 {
+			background: $red-dark;
+		}
+	}
+
+	#sign-quickstart {
+		background: $grey;
+		h2 {
+			background: $grey-dark;
+		}
+	}
+
+	#sign-safety {
+		background: $blue;
+		h2 {
+			background: $blue-dark;
+		}
+	}
+	
+	#sign-cleanup {
+		background: $grey2;
+		h2 {
+			background: $grey2-dark;
+		}
+	}
+
+	#sign-footer {
+		display: flex;
+		margin-top: auto;
+		flex-direction: row;
+		justify-content: space-between;
+		justify-items: start;
+		flex-grow: 0;
+		flex-wrap: wrap;
+		padding-top: 5mm;
+		padding-bottom: 5mm;
+		color: #333;
+
+		div {
+			max-width: 80mm;
+			display: flex;
+			flex-direction: row;
+			justify-content: stretch;
+			align-items: center;
+			height: 20mm;
+			padding: 2mm 0mm 2mm 0mm;
+
+			div {
+				display: flex;
+				flex-direction: column;
+				justify-content: center;
+				align-items: flex-start;
+				margin-left: 2mm;
+
+				h3 {
+					text-align: left;
+					display: block;
+					margin: 0mm;
+				}
+
+				p {
+					width: 100%;
+					margin: 0mm;
+					text-align: left;
+					font-size: 10pt;
+					overflow-wrap: anywhere;
+				}
+			}
+
+			img {
+				margin: 0mm;
+				height: 100%;
+				align-self: center;
+			}
+		}
+	}
+}
+
+img.invert {
+	filter: invert(100%);
+}
+
+.sign-icon-allowed {
+	// Filter from https://codepen.io/sosuke/pen/Pjoqqp
+	//filter: invert(47%) sepia(33%) saturate(3755%) hue-rotate(86deg) brightness(107%) contrast(91%);
+	filter: invert(100%);
+}
+
+.sign-icon-not-allowed {
+	//filter: invert(22%) sepia(90%) saturate(2315%) hue-rotate(354deg) brightness(81%) contrast(100%);
+	filter: invert(100%);
+}
+
+.item-list {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	justify-content: flex-start;
+	padding-left: 5mm;
+	padding-top: 3mm;
+	padding-bottom: 2mm;
+
+	div {
+		width: 27mm;
+		margin-left: 1mm;
+		margin-right: 1mm;
+		display: flex;
+		flex-direction: column;
+		flex-wrap: nowrap;
+
+		img {
+			align-self: center;
+			height: 8mm;
+		}
+
+		p {
+			text-align: center;
+			margin-bottom: 1mm;
+			margin-top: 2mm;
+		}
+	}
+}
+
+.item-list-horizontal {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	justify-content: start;
+	padding-left: 5mm;
+	padding-right: 5mm;
+
+	div {
+		height: 20mm;
+		margin-left: 1mm;
+		margin-right: 1mm;
+		display: flex;
+		flex-direction: row;
+		flex-wrap: nowrap;
+		align-content: center;
+
+		img {
+			align-self: center;
+			height: 8mm;
+		}
+
+		p {
+			text-align: left;
+			margin-left: 3mm;
+			width: 40mm;
+			align-self: center;
+		}
+	}
+}

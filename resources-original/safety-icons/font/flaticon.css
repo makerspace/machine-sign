@@ -1,0 +1,61 @@
+	/*
+  	Flaticon icon font: Flaticon
+  	Creation date: 22/06/2016 15:12
+  	*/
+
+@font-face {
+  font-family: "Flaticon";
+  src: url("./Flaticon.eot");
+  src: url("./Flaticon.eot?#iefix") format("embedded-opentype"),
+       url("./Flaticon.woff") format("woff"),
+       url("./Flaticon.ttf") format("truetype"),
+       url("./Flaticon.svg#Flaticon") format("svg");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+  @font-face {
+    font-family: "Flaticon";
+    src: url("./Flaticon.svg#Flaticon") format("svg");
+  }
+}
+
+[class^="flaticon-"]:before, [class*=" flaticon-"]:before,
+[class^="flaticon-"]:after, [class*=" flaticon-"]:after {   
+  font-family: Flaticon;
+        font-size: 20px;
+font-style: normal;
+margin-left: 20px;
+}
+
+.flaticon-acid-falling-on-hand:before { content: "\f100"; }
+.flaticon-bike-horn:before { content: "\f101"; }
+.flaticon-dog-head:before { content: "\f102"; }
+.flaticon-electrocution-risk-sign:before { content: "\f103"; }
+.flaticon-face-shield:before { content: "\f104"; }
+.flaticon-fire-extinguisher:before { content: "\f105"; }
+.flaticon-forklift:before { content: "\f106"; }
+.flaticon-gas-mask:before { content: "\f107"; }
+.flaticon-hook-hanging-material:before { content: "\f108"; }
+.flaticon-loaded-truck-side-view:before { content: "\f109"; }
+.flaticon-locked-padlock-with-chain:before { content: "\f10a"; }
+.flaticon-medical-mask:before { content: "\f10b"; }
+.flaticon-motorbike-helmet:before { content: "\f10c"; }
+.flaticon-protection-gloves:before { content: "\f10d"; }
+.flaticon-reflective-vest:before { content: "\f10e"; }
+.flaticon-rock-landslide-safety-sign:before { content: "\f10f"; }
+.flaticon-safety-glasses:before { content: "\f110"; }
+.flaticon-safety-shirt:before { content: "\f111"; }
+.flaticon-seat-belt-on-silhouette:before { content: "\f112"; }
+.flaticon-silhouette-crossing-street:before { content: "\f113"; }
+.flaticon-silhouette-with-safety-headphone:before { content: "\f114"; }
+.flaticon-sprained-ankle:before { content: "\f115"; }
+.flaticon-surveillance-camera:before { content: "\f116"; }
+.flaticon-traffic-cones:before { content: "\f117"; }
+.flaticon-two-knots-rope:before { content: "\f118"; }
+.flaticon-woman-boots:before { content: "\f119"; }
+.flaticon-worker-silhouette:before { content: "\f11a"; }
+.flaticon-worker-with-gas-mask:before { content: "\f11b"; }
+.flaticon-worker-with-harness:before { content: "\f11c"; }
+.flaticon-working-coverall:before { content: "\f11d"; }
