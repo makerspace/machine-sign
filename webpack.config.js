@@ -2,12 +2,14 @@ const path = require('path');
 const merge = require('webpack-merge');
 const webpack = require('webpack');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const transformInferno = require('ts-transform-inferno').default
+const transformClasscat = require('ts-transform-classcat').default
 
 module.exports = (env, args) => {
 	const commonSettings = {
 		context: path.resolve(__dirname),
 		entry: {
-			main: "./src/main.ts",
+			main: "./src/main.tsx",
 		},
 		
 		output:
@@ -34,7 +36,16 @@ module.exports = (env, args) => {
 						// Compiles Sass to CSS
 						'sass-loader',
 					],
-			  	},
+				  },
+				  {
+					test: /\.tsx$/,
+					loader: 'ts-loader',
+					options: {
+					  getCustomTransformers: () => ({
+						before: [transformClasscat(), transformInferno()],
+					  }),
+					},
+				  },
 			]
 		},
 		
