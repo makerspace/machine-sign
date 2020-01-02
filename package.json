@@ -22,6 +22,7 @@
     "webpack-cli": "^3.3.10"
   },
   "dependencies": {
+    "classcat": "^4.0.2",
     "inferno": "^7.3.3",
     "ta-json": "^2.5.0",
     "webpack-merge": "^4.2.2",

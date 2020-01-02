@@ -1,7 +1,11 @@
 import './style.scss';
 import { JSON, JsonObject, JsonProperty } from "ta-json";
-import { render } from 'inferno';
-import './blah.tsx';
+import { render, Component } from 'inferno';
+import { PreviewSign } from './view_preview';
+import { Sign, Material, MaterialIcon } from './data';
+import "classcat"
+import { SettingsSign } from './view_settings';
+
 
 console.log("Hi");
 
@@ -21,94 +25,6 @@ function initializeWithJson(obj: any, json: any) {
     }
 }
 
-enum SafetyIcon {
-    HearingProtection,
-    ProtectiveGloves,
-}
-
-class Material {
-    label: String;
-}
-
-enum Access {
-    UsableByEveryone,
-    UsableByEveryoneCareful,
-    CourseRequired,
-}
-
-class Sign {
-    protected __type__ = "Sign";
-    name: String = "";
-    access: Access = Access.UsableByEveryone;
-    outOfOrder: Boolean = false;
-    sections: Sections = new Sections();
-}
-
-abstract class Section {
-    protected __type__ = "Sign";
-    header: String = null;
-    enabled: Boolean = false;
-
-    abstract defaultHeader (): String;
-}
-
-class SectionOutOfOrder extends Section {
-    constructor() {
-        super();
-        this.__type__ = "SignOutOfOrder";
-    }
-    reason: String = "";
-    defaultHeader () {
-        return "Out Of Order";
-    }
-}
-
-class SectionSafety extends Section {
-    constructor() {
-        super();
-        this.__type__ = "SectionSafety";
-    }
-    icons: SafetyIcon[] = new Array<SafetyIcon>();
-    defaultHeader () {
-        return "Safety";
-    }
-}
-
-class SectionMaterials extends Section {
-    constructor() {
-        super();
-        this.__type__ = "SectionMaterials";
-    }
-    allowed: Boolean = false;
-    materials: Material[] = new Array<Material>();
-    defaultHeader () {
-        return this.allowed ? "Allowed Materials" : "Prohibited Materials";
-    }
-}
-
-class FreeTextSection extends Section {
-    constructor() {
-        super();
-        this.__type__ = "FreeTextSection";
-    }
-    contents: String = "";
-    defaultHeader () {
-        return "";
-    }
-}
-
-class Sections {
-    allowedMaterials: SectionMaterials = new SectionMaterials();
-    prohibitedMaterials: SectionMaterials = new SectionMaterials();
-    quickStart: FreeTextSection = new FreeTextSection();
-    outOfOrder : SectionOutOfOrder;
-
-    constructor() {
-        this.allowedMaterials.allowed = true;
-        this.prohibitedMaterials.allowed = false;
-        this.quickStart.header = "Quick Start";
-    }
-}
 
 function renderOptions(root: HTMLElement, sign: Sign) {
     ""
@@ -120,3 +36,40 @@ function renderPreview(root: HTMLElement, sign: Sign) {
      
     `
 }
+
+const sign = new Sign();
+sign.name = "Test";
+sign.sections.allowedMaterials.enabled = true;
+sign.sections.allowedMaterials.materials.push(new Material(MaterialIcon.SafetyGlasses));
+sign.sections.allowedMaterials.materials.push(new Material(MaterialIcon.HearingProtection));
+
+export class App extends Component {
+    constructor(props: any) {
+        super(props);
+        this.state = props.sign;
+    }
+
+    onChange() {
+        console.log("Changed");
+        this.setState(this.state);
+    }
+
+    render() {
+        return (
+            <div class="app-root">
+                <div id="settings">
+                    <SettingsSign sign={this.state} onChange={ () => this.onChange() } />);
+                </div>
+                <div id="preview">
+                    <PreviewSign sign={this.state} />);
+                </div>
+            </div>
+        );
+    }
+}
+
+
+render(
+    <App sign={sign} />,
+    document.getElementById("app-root")
+);

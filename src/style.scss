@@ -14,18 +14,25 @@ $grey2: #555555;
 $grey2-dark: #444444;
 $background: #343434;
 $background: #EEE;
+$settings-background: #111;
+
+body {
+	margin: 0px;
+}
 
 .app-root {
 	display: flex;
 	flex-direction: row;
 	width: 100%;
+	font-family: 'Bitter', sans;
 }
 
-.settings {
+#settings {
 	width: 40%;
 }
-.preview {
-	background: #111;
+
+#preview {
+	background: $settings-background;
 	padding: 20px;
 	flex-grow: 1;
 	display: flex;
@@ -40,7 +47,7 @@ $background: #EEE;
 	font-size: 20pt;
 }
 
-.sign-root {
+#preview .sign-root {
 	padding-left: 3mm;
 	padding-right: 3mm;
 	padding-top: 3mm;
@@ -49,7 +56,6 @@ $background: #EEE;
 	width: 210mm;
 	height: 297mm;
 	color: white;
-	font-family: 'Bitter', sans;
 	background: $background;
 	display: flex;
 	flex-direction: column;
@@ -123,42 +129,42 @@ $background: #EEE;
 		}
 	}
 
-	#sign-materials-allowed {
+	.sign-materials-allowed {
 		background: $green;	
 		h2 {
 			background: $green-dark;
 		}
 	}
 
-	#sign-materials-prohibited {
+	.sign-materials-prohibited {
 		background: $red;	
 		h2 {
 			background: $red-dark;
 		}
 	}
 
-	#sign-quickstart {
+	.sign-quickstart {
 		background: $grey;
 		h2 {
 			background: $grey-dark;
 		}
 	}
 
-	#sign-safety {
+	.sign-safety {
 		background: $blue;
 		h2 {
 			background: $blue-dark;
 		}
 	}
 	
-	#sign-cleanup {
+	.sign-cleanup {
 		background: $grey2;
 		h2 {
 			background: $grey2-dark;
 		}
 	}
 
-	#sign-footer {
+	.sign-footer {
 		display: flex;
 		margin-top: auto;
 		flex-direction: row;
@@ -282,6 +288,60 @@ img.invert {
 			margin-left: 3mm;
 			width: 40mm;
 			align-self: center;
+		}
+	}
+}
+
+#settings {
+	background: $settings-background;
+}
+
+#settings .sign-root {
+	color: white;
+	margin-left: 5mm;
+	margin-right: 5mm;
+	margin-top: 5mm;
+	
+	.sign-section {
+		background: $grey2;
+		margin-top: 1mm;
+		margin-bottom: 1mm;
+		border-radius: 1mm;
+		overflow: hidden;
+
+		>p {
+			padding-left: 5mm;
+		}
+	}
+
+	input, select {
+		display: block;
+		margin: 1mm;
+		background: #444;
+		color: white;
+		border: 1mm solid #333;
+		border-radius: 1mm;
+		padding: 1mm;
+		padding-left: 2mm;
+	}
+
+	.settings-section-header {
+		display: flex;
+		flex-direction: row;
+		background: $grey2-dark;
+
+		input {
+			// Checkboxes
+			margin-left: 3mm;
+			filter: grayscale(1);
+		}
+
+		h2 {
+			margin: 0mm 0mm 0mm 5mm;
+			padding-bottom: 2mm;
+			padding-top: 2mm;
+			padding-left: 5mm;
+			font-size: 14pt;
 		}
 	}
 }

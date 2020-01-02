@@ -42,7 +42,7 @@ module.exports = (env, args) => {
 					loader: 'ts-loader',
 					options: {
 					  getCustomTransformers: () => ({
-						before: [transformClasscat(), transformInferno()],
+						before: [transformInferno()],
 					  }),
 					},
 				  },
