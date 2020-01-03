@@ -15,6 +15,7 @@ $grey2-dark: #444444;
 $background: #343434;
 $background: #EEE;
 $settings-background: #111;
+$active-color: rgb(45, 138, 214);
 
 body {
 	margin: 0px;
@@ -149,6 +150,10 @@ body {
 		h2 {
 			background: $grey-dark;
 		}
+
+		p {
+			white-space: pre-line;
+		}
 	}
 
 	.sign-safety {
@@ -177,13 +182,23 @@ body {
 		padding-bottom: 5mm;
 
 		div {
-			max-width: 80mm;
+			max-width: 75mm;
 			display: flex;
 			flex-direction: row;
 			justify-content: stretch;
 			align-items: center;
-			height: 20mm;
+			height: 17mm;
 			padding: 2mm 0mm 2mm 0mm;
+			margin-left: 2mm;
+			margin-right: 2mm;
+
+			&:first-child {
+				margin-left: 0mm;
+			}
+
+			&:last-child {
+				margin-right: 0mm;
+			}
 
 			div {
 				display: flex;
@@ -204,6 +219,7 @@ body {
 					text-align: left;
 					font-size: 10pt;
 					overflow-wrap: anywhere;
+					word-break: break-all;
 				}
 			}
 
@@ -256,11 +272,12 @@ img.invert {
 	flex-wrap: wrap;
 	justify-content: flex-start;
 	padding-left: 5mm;
+	padding-right: 5mm;
 	padding-top: 3mm;
 	padding-bottom: 2mm;
 
 	div {
-		width: 27mm;
+		width: 30mm;
 		margin-left: 1mm;
 		margin-right: 1mm;
 		display: flex;
@@ -315,6 +332,46 @@ img.invert {
 	background: $settings-background;
 }
 
+div.sign-selector {
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 30px;
+	border-radius: 5px;
+	//border: 4px solid #469ABE;
+	min-width: 400px;
+	overflow: hidden;
+	box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.4);
+
+	ul {
+		list-style: none;
+		padding: 0px;
+		margin: 0px;
+	}
+
+	h1 {
+		background: #469ABE;
+		border-bottom: 2px solid #07719F;
+		color: white;
+		padding: 10px;
+		margin: 0px;
+		padding-left: 10px;
+	}
+
+	li {
+		border-bottom: 2px solid #07719F;
+		background: #2785AD;
+		color: white;
+		padding: 5px;
+		padding-left: 10px;
+		font-weight: bold;
+		cursor: pointer;
+
+		&:hover {
+			background: #07719F;
+		}
+	}
+}
+
 #settings .sign-root {
 	color: white;
 	margin-left: 5mm;
@@ -335,6 +392,21 @@ img.invert {
 		}
 	}
 
+	// For opening different documents
+	select.sign-selector {
+		margin-left: 0mm;
+		width: 100%;
+		-moz-appearance: none;
+		-webkit-appearance: none;
+		appearance: none;
+		background: url(http://cdn1.iconfinder.com/data/icons/cc_mono_icon_set/blacks/16x16/br_down.png) no-repeat right 10px center #444;
+		transition: border 100ms;
+
+		&:hover {
+			border-color: $active-color;
+		}
+	}
+
 	.selection-row {
 		display: flex;
 		flex-direction: row;
@@ -352,6 +424,11 @@ img.invert {
 			padding-left: 1mm;
 			padding-right: 1mm;
 			width: 8mm;
+
+			img {
+				width: 100%;
+				margin-left: 1px;
+			}
 		}
 	}
 
@@ -381,7 +458,7 @@ img.invert {
 		margin: 1mm;
 		background: #444;
 		color: white;
-		border: 1mm solid #333;
+		border: 1px solid #000;
 		border-radius: 1mm;
 		padding: 1mm;
 		padding-left: 2mm;
@@ -389,6 +466,10 @@ img.invert {
 
 		&::-moz-focus-inner {
 			border: 0;
+		}
+
+		&:focus {
+			border-color: $active-color;
 		}
 	}
 
@@ -405,6 +486,7 @@ img.invert {
 	.settings-section-header {
 		display: flex;
 		flex-direction: row;
+		align-items: center;
 		background: $grey2-dark;
 
 		input {

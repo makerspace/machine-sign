@@ -28,6 +28,7 @@
     "inferno": "^7.3.3",
     "qrcode": "^1.4.4",
     "ta-json": "^2.5.0",
+    "ts-debounce": "^1.0.0",
     "webpack-merge": "^4.2.2",
     "webpack-ts": "^1.0.7"
   }

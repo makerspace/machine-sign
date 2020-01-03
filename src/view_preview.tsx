@@ -209,10 +209,10 @@ export const PreviewSign = ({ sign }: { sign: Sign }) => {
 
   const sections = sign.sections;
   const arr = [
+    sections.safety,
     sections.allowedMaterials,
     sections.prohibitedMaterials,
     sections.quickStart,
-    sections.safety,
     sections.cleanup,
   ];
   return (

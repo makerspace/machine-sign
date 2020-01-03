@@ -45,6 +45,10 @@ def close_connection(exception):
 def index():
     return app.send_static_file("index.html")
 
+@app.route('/<int:id>')
+def view_sign(id: int):
+    return app.send_static_file("index.html")
+
 @app.route('/data/signs', methods=["GET"])
 def list_signs():
     c = get_db().cursor()

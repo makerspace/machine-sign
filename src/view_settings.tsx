@@ -1,4 +1,4 @@
-import { render, Component } from 'inferno';
+import { render, Component, Fragment } from 'inferno';
 import { SafetyIcon, Material, Access, Sign, Section, SectionOutOfOrder, SectionSafety, SectionMaterials, SectionFreeText, SafetyItem, SectionCleanup, CleanupItem } from './data';
 import { safetyIcon2name, iconDelete, ColorClass } from './view_common';
 
@@ -23,17 +23,18 @@ const SettingsSectionGroup = ({name, children, enabled = true, onChangeEnabled }
     );
 }
 
-const SettingsMaterial = ({material, onChange} : {material: Material, onChange: OnChange}) => {
+const SettingsMaterialItem = ({material, onChange, onDelete} : {material: Material, onChange: OnChange, onDelete: ()=>void}) => {
     return (
         <div class="selection-row">
-            <input type="text" placeholder="Material name" value={material.label} onInput={(e: Event) => { material.label = (e.target as HTMLInputElement).value; onChange(); }} />
+            <input type="text" list="autocomplete-material" placeholder="Material name" value={material.label} onInput={(e: Event) => { material.label = (e.target as HTMLInputElement).value; onChange(); }} />
+            <button onClick={ onDelete } tabIndex={-1}><img class="invert" src={iconDelete} /></button>
         </div>
     );
 };
 
 const SettingsSectionMaterials = ({section, onChange}: {section: SectionMaterials, onChange: OnChange}) => (
     <SettingsSectionGroup name={section.defaultHeader()} enabled={section.enabled} onChangeEnabled={v => { section.enabled = v; onChange(); }} >
-        { section.materials.map(v => SettingsMaterial({material: v, onChange})) }
+        { section.materials.map(v => SettingsMaterialItem({material: v, onChange, onDelete: () => { removeFromArray(section.materials, v); onChange(); }})) }
         <button onClick={ () => { section.materials.push( { label: "" }); onChange(); }}>Add material</button>
     </SettingsSectionGroup>
 );
@@ -56,7 +57,7 @@ const SettingsSafetyItem = ({item, onChange, onDelete} : {item: SafetyItem, onCh
                 { safetyIcons.map(v => (<option value={v}>{safetyIcon2name[v]}</option>))  }
             </select>
             <input type="text" placeholder={safetyIcon2name[item.icon]} value={item.label} onInput={(e: Event) => { item.label = (e.target as HTMLInputElement).value; onChange(); }} />
-            <button onClick={ onDelete }><img class="invert" src={iconDelete} /></button>
+            <button onClick={ onDelete } tabIndex={-1}><img class="invert" src={iconDelete} /></button>
         </div>
     );
 };
@@ -68,20 +69,21 @@ function removeFromArray<T>(arr: Array<T>, item: T) {
 
 const SettingsSectionSafety = ({section, onChange}: {section: SectionSafety, onChange: OnChange}) => (
     <SettingsSectionGroup name={section.defaultHeader()} enabled={section.enabled} onChangeEnabled={v => { section.enabled = v; onChange(); }} >
-        { section.icons.map(item => SettingsSafetyItem({item, onChange, onDelete: () => { removeFromArray(section.icons, item), onChange() }})) }
+        { section.icons.map(item => SettingsSafetyItem({item, onChange, onDelete: () => { removeFromArray(section.icons, item); onChange(); }})) }
         <button onClick={ () => { section.icons.push({ icon: SafetyIcon.SafetyGlasses, label: "" }); onChange(); }}>Add safety icon</button>
     </SettingsSectionGroup>
 );
 
-const SettingsCleanupItem = ({item, onChange} : {item: CleanupItem, onChange: OnChange}) => (
+const SettingsCleanupItem = ({item, onChange, onDelete} : {item: CleanupItem, onChange: OnChange, onDelete: ()=>void}) => (
     <div class="selection-row">
-        <input type="text" placeholder="Cleanup task" value={item.label} onInput={(e: Event) => { item.label = (e.target as HTMLInputElement).value; onChange(); }} />
+        <input type="text" list="autocomplete-cleanup" placeholder="Cleanup task" value={item.label} onInput={(e: Event) => { item.label = (e.target as HTMLInputElement).value; onChange(); }} />
+        <button onClick={ onDelete } tabIndex={-1}><img class="invert" src={iconDelete} /></button>
     </div>
 );
 
 const SettingsSectionCleanup = ({section, onChange}: {section: SectionCleanup, onChange: OnChange}) => (
     <SettingsSectionGroup name={section.defaultHeader()} enabled={section.enabled} onChangeEnabled={v => { section.enabled = v; onChange(); }} >
-        { section.items.map(item => SettingsCleanupItem({item, onChange})) }
+        { section.items.map(item => SettingsCleanupItem({item, onChange, onDelete: () => { removeFromArray(section.items, item); onChange(); }})) }
         <button onClick={ () => { section.items.push({ label: "" }); onChange(); }}>Add cleanup item</button>
     </SettingsSectionGroup>
 );
@@ -139,19 +141,19 @@ function SettingsSection(section: Section, onChange: OnChange) : JSX.Element {
   else throw new Error("Unexpected section type " + typeof(section));
 }
 
-function SettingsSave({ onSave, onDelete }: { onSave: ()=>void, onDelete: ()=>void }) {
+function SettingsSave({ onSave, onDelete, autosaved }: { onSave: ()=>void, onDelete: ()=>void, autosaved: boolean }) {
     return (
         <SettingsSectionGroup
             enabled={true}
             name="Save"
             onChangeEnabled={null} >
             <button onClick={onDelete}>Delete</button>
-            <button onClick={onSave}>Save</button>
+            <button onClick={onSave}>{ autosaved ? "Autosaved" : "Save" }</button>
         </SettingsSectionGroup>
     )
 }
 
-export const SettingsSign = ({ sign, onChange, onSave, onDelete }: { sign: Sign, onChange: OnChange, onSave: ()=>void, onDelete: ()=>void }) => {
+export const SettingsSign = ({ sign, onChange, onSave, onDelete, autosaved }: { sign: Sign, onChange: OnChange, onSave: ()=>void, onDelete: ()=>void, autosaved: boolean }) => {
   const sections = sign.sections;
   const arr = [
     sections.allowedMaterials,
@@ -160,12 +162,12 @@ export const SettingsSign = ({ sign, onChange, onSave, onDelete }: { sign: Sign,
     sections.safety,
     sections.cleanup
   ];
-  return (<div class="sign-root">
+  return (<Fragment>
     <SignHeader sign={sign} onChange={onChange} />
     <SignOutOfOrder sign={sign}  onChange={onChange} />
     {arr.map(s => SettingsSection(s, onChange))}
     <SettingsSignFooter sign={sign} onChange={onChange} />
-    <SettingsSave onSave={onSave} onDelete={onDelete} />
-  </div>);
+    <SettingsSave onSave={onSave} onDelete={onDelete} autosaved={autosaved} />
+    </Fragment>);
 };
 
