@@ -18,6 +18,7 @@ $settings-background: #111;
 
 body {
 	margin: 0px;
+	padding: 0px;
 }
 
 .app-root {
@@ -53,8 +54,8 @@ body {
 	padding-top: 3mm;
 	border-radius: 4px;
 	overflow: hidden;
-	width: 210mm;
-	height: 297mm;
+	width: 210mm - 2*3mm;
+	height: 296.9mm - 3mm;
 	color: white;
 	background: $background;
 	display: flex;
@@ -164,7 +165,7 @@ body {
 		}
 	}
 
-	.sign-footer {
+	.sign-footer, .sign-outoforder-icons {
 		display: flex;
 		margin-top: auto;
 		flex-direction: row;
@@ -174,7 +175,6 @@ body {
 		flex-wrap: wrap;
 		padding-top: 5mm;
 		padding-bottom: 5mm;
-		color: #333;
 
 		div {
 			max-width: 80mm;
@@ -212,6 +212,25 @@ body {
 				height: 100%;
 				align-self: center;
 			}
+		}
+	}
+
+	.sign-footer {
+		color: #333;
+	}
+
+	.sign-outoforder-icons {
+		color: white;
+		margin-left: 10mm;
+		margin-right: 10mm;
+		padding-top: 0mm;
+		justify-items: center;
+		justify-content: center;
+
+		div {
+			margin-left: 5mm;
+			margin-right: 5mm;
+			max-width: unset;
 		}
 	}
 }
@@ -304,17 +323,60 @@ img.invert {
 	
 	.sign-section {
 		background: $grey2;
-		margin-top: 1mm;
-		margin-bottom: 1mm;
-		border-radius: 1mm;
+		margin-top: 4px;
+		margin-bottom: 4px;
+		border-radius: 1mm; // mm for consistency with preview
 		overflow: hidden;
+		display: flex;
+		flex-direction: column;
 
 		>p {
 			padding-left: 5mm;
 		}
 	}
 
-	input, select {
+	.selection-row {
+		display: flex;
+		flex-direction: row;
+		justify-content: start;
+
+		input {
+			flex-grow: 1;
+		}
+		
+		button {
+			// Delete button
+			display: flex;
+			flex-shrink: 0;
+			justify-content: center;
+			padding-left: 1mm;
+			padding-right: 1mm;
+			width: 8mm;
+		}
+	}
+
+	button {
+		background: #444;
+		border-radius: 1mm;
+		border: 2px solid #333;
+		margin: 1mm;
+		color: white;
+		padding: 1mm 3mm 1mm 3mm;
+		outline: none;
+		transition: background 30ms;
+		outline: none;
+		max-width: 33%;
+
+		&::-moz-focus-inner {
+			border: 0;
+		}
+
+		&:hover {
+			background: #3A3A3A;
+		}
+	}
+
+	input, select, textarea {
 		display: block;
 		margin: 1mm;
 		background: #444;
@@ -323,6 +385,21 @@ img.invert {
 		border-radius: 1mm;
 		padding: 1mm;
 		padding-left: 2mm;
+		outline: none;
+
+		&::-moz-focus-inner {
+			border: 0;
+		}
+	}
+
+	textarea {
+		min-height: 100px;
+	}
+
+	select:-moz-focusring {
+		// https://stackoverflow.com/questions/9119629/remove-dotted-border-outline-of-focused-dropdown-menu
+		color: transparent;
+		text-shadow: 0 0 0 white;
 	}
 
 	.settings-section-header {
@@ -333,7 +410,8 @@ img.invert {
 		input {
 			// Checkboxes
 			margin-left: 3mm;
-			filter: grayscale(1);
+			//filter: grayscale(1);
+			outline: 0;
 		}
 
 		h2 {
@@ -344,4 +422,32 @@ img.invert {
 			font-size: 14pt;
 		}
 	}
+}
+
+@media only print {
+	#preview .sign-root {
+		border-radius: 0px;
+		background: unset;
+	}
+	
+	#settings {
+		display: none;
+	
+	}
+	
+	#preview {
+		background: unset;
+		padding: 0px;
+	}
+	
+	@page {
+		size: A4;
+		margin: 0;
+	}
+	
+	.app-root {
+		display: flex;
+		flex-direction: row;
+		width: unset;
+	}	
 }

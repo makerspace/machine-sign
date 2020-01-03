@@ -5,30 +5,19 @@ export enum SafetyIcon {
     SafetyGlasses,
 }
 
-export enum MaterialIcon {
-    SafetyGlasses,
-    ProtectionGloves,
-    HearingProtection,
-}
 
-export class Material {
+export interface Material {
     label: string;
-    icon: MaterialIcon;
-
-    constructor(icon: MaterialIcon, label: string = "") {
-        this.label = label;
-        this.icon = icon;
-    }
+    //icon: MaterialIcon;
 }
 
-export class SafetyItem {
+export interface SafetyItem {
     label: string;
     icon: SafetyIcon;
+}
 
-    constructor(icon: SafetyIcon, label: string = "") {
-        this.label = label;
-        this.icon = icon;
-    }
+export interface CleanupItem {
+    label: string;
 }
 
 export enum Access {
@@ -44,6 +33,8 @@ export class Sign {
     access: Access = Access.UsableByEveryone;
     outOfOrder: boolean = false;
     outOfOrderReason: string = "";
+    wikiURL: string = "";
+    slackChannel: string = "";
     sections: Sections = new Sections();
 }
 
@@ -80,6 +71,14 @@ export class SectionSafety extends Section {
     }
 }
 
+export class SectionCleanup extends Section {
+    items: CleanupItem[] = new Array<CleanupItem>();
+
+    defaultHeader() {
+        return "Cleanup";
+    }
+}
+
 export class SectionMaterials extends Section {
     constructor() {
         super();
@@ -106,6 +105,8 @@ export class SectionFreeText extends Section {
 export class Sections {
     allowedMaterials: SectionMaterials = new SectionMaterials();
     prohibitedMaterials: SectionMaterials = new SectionMaterials();
+    safety : SectionSafety = new SectionSafety();
+    cleanup: SectionCleanup = new SectionCleanup();
     quickStart: SectionFreeText = new SectionFreeText();
     outOfOrder : SectionOutOfOrder = new SectionOutOfOrder();
 

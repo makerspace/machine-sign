@@ -4,6 +4,7 @@ const webpack = require('webpack');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const transformInferno = require('ts-transform-inferno').default
 const transformClasscat = require('ts-transform-classcat').default
+//const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 module.exports = (env, args) => {
 	const commonSettings = {
@@ -60,6 +61,7 @@ module.exports = (env, args) => {
 				filename: '[name].css',
 				chunkFilename: '[id].css',
 			}),
+			//new BundleAnalyzerPlugin()
 		],
 	};
 	

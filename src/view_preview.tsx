@@ -1,11 +1,13 @@
 import { render, Component } from 'inferno';
-import { SafetyIcon, MaterialIcon, Material, Access, Sign, Section, SectionOutOfOrder, SectionSafety, SectionMaterials, SectionFreeText } from './data';
-import { materialIcon2svg, ColorClass } from './view_common';
+import { SafetyIcon, SafetyItem, Material, Access, Sign, Section, SectionOutOfOrder, SectionSafety, SectionMaterials, SectionFreeText, SectionCleanup } from './data';
+import { safetyIcon2svg, safetyIcon2name, iconCleanup, ColorClass, iconAllowedMaterial, iconProhibitedMaterial } from './view_common';
+import * as QRCode from 'qrcode';
 
-const PreviewMaterial = (material: Material) => (
+const PreviewMaterial = (material: Material, allowed: boolean) => (
   <div>
-    <img class="invert" src={ materialIcon2svg[material.icon] || "" } />
-    <p>{material.label || MaterialIcon[material.icon] }</p>
+    {/* <img class="invert" src={ materialIcon2svg[material.icon] || "" } /> */}
+    <img class="invert" src={ allowed ? iconAllowedMaterial : iconProhibitedMaterial } />
+    <p>{material.label || "Unnamed Material" }</p>
   </div>
 )
 
@@ -21,7 +23,7 @@ const PreviewSectionMaterials = ({section}: {section: SectionMaterials}) => (
     className={`sign-materials-${section.allowed ? "allowed" : "prohibited"}`}
     name={ section.header() }>
       <div class="item-list">
-        {section.materials.map(PreviewMaterial)}
+        {section.materials.map(item => PreviewMaterial(item, section.allowed))}
       </div>
   </PreviewSectionGroup>
 );
@@ -30,14 +32,44 @@ const PreviewSectionFreeText = ({section}: {section: SectionFreeText}) => {
   return (<PreviewSectionGroup
     className="sign-quickstart"
     name={ section.header() }>
-    {section.contents}
+    <p>{section.contents}</p>
   </PreviewSectionGroup>);
 }
 
+const PreviewSafetyItem = (item: SafetyItem) => (
+  <div>
+    <img class="invert" src={ safetyIcon2svg[item.icon] || "" } />
+    <p>{item.label || safetyIcon2name[item.icon] }</p>
+  </div>
+)
+
 const PreviewSectionSafety = ({section}: {section: SectionSafety}) => (
-  <h1>Hi</h1>
+  <PreviewSectionGroup
+    className="sign-safety"
+    name={ section.header() }>
+      <div class="item-list">
+        {section.icons.map(PreviewSafetyItem) }
+      </div>
+  </PreviewSectionGroup>
 );
 
+
+const PreviewCleanupItem = (item: SafetyItem) => (
+  <div>
+    <img class="invert" src={ iconCleanup || "" } />
+    <p>{item.label || "Untitled task" }</p>
+  </div>
+)
+
+const PreviewSectionCleanup = ({section}: {section: SectionCleanup}) => (
+  <PreviewSectionGroup
+    className="sign-cleanup"
+    name={ section.header() }>
+      <div class="item-list-horizontal">
+        {section.items.map(PreviewCleanupItem) }
+      </div>
+  </PreviewSectionGroup>
+);
 
 
 const SignHeader = ({sign}: {sign: Sign}) => {
@@ -68,36 +100,90 @@ const SignOutOfOrder = ({sign}: {sign: Sign}) => {
     <PreviewSectionGroup className={ColorClass(sign)} name="Status">
       <span class="sign-access-label">This machine is out of order</span>
       {reason}
-      <p>See Slack or Facebook for updates</p>
+      <p>See Facebook or Slack for updates</p>
+      <div class="sign-outoforder-icons">
+        <div>
+          <img src="static/images/facebook_icon.svg" />
+          <div>
+            <h3>Facebook</h3>
+            <p>facebook.com/groups/makerspace.se</p>
+          </div>
+        </div>
+        <div>
+          <img src="https://cdn4.iconfinder.com/data/icons/logos-and-brands/512/306_Slack_logo-512.png" />
+          <div>
+            <h3>Slack</h3>
+            <p>#{ sign.slackChannel || "general" }</p>
+          </div>
+        </div>
+      </div>
     </PreviewSectionGroup>
   );
  }
 
-const PreviewSignFooter = ({sign}: {sign: Sign}) => (
-  <div class="sign-footer">
-    <div>
-      <img class="" src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/QR_code_for_mobile_English_Wikipedia.svg/1200px-QR_code_for_mobile_English_Wikipedia.svg.png" />
-      <div>
-        <h3>Wiki</h3>
-        <p>http://mkrspc.se/?342</p>
+class PreviewSignFooter extends Component {
+  state: any;
+  lastQRUrl: string = null;
+
+  constructor(props: any) {
+    super(props);
+    this.state = { qrData: "" };
+    this.componentDidUpdate(null, null, null);
+  }
+
+  componentDidUpdate(lastProps: any, nextState: any, context: any) {
+    let url = this.props.sign.wikiURL.trim();
+    if (!url) {
+      url = "http://wiki.makerspace.se";
+    }
+    
+    if (url != this.lastQRUrl) {
+      this.lastQRUrl = url;
+
+      const opts: any = {
+        errorCorrectionLevel: 'M',
+        type: 'image/png',
+        margin: 1,
+        color: {
+          dark:"#000",
+          light:"#FFF"
+        }
+      }
+
+      QRCode.toDataURL(url, opts).then(data => {
+        this.setState({ qrData: data });
+      });
+    }
+  }
+
+  render() {
+    return (
+      <div class="sign-footer">
+        <div>
+          <img src={ this.state.qrData } />
+          <div>
+            <h3>Wiki</h3>
+            <p>{ this.props.sign.wikiURL ? this.props.sign.wikiURL.replace("http://", "").replace("https://", "") : "No wiki page, you should create one!" }</p>
+          </div>
+        </div>
+        <div>
+          <img src="https://cdn4.iconfinder.com/data/icons/logos-and-brands/512/306_Slack_logo-512.png" />
+          <div>
+            <h3>Slack</h3>
+            <p>#{ this.props.sign.slackChannel || "general" }</p>
+          </div>
+        </div>
+        <div>
+          <img class="" src="static/images/zondicons/exclamation-outline.svg" />
+          <div>
+            <h3>Changes needed?</h3>
+            <p>Update this sign at medlem.makerspace.se/sign/404</p>
+          </div>
+        </div>
       </div>
-    </div>
-    <div>
-      <img src="https://cdn4.iconfinder.com/data/icons/logos-and-brands/512/306_Slack_logo-512.png" />
-      <div>
-        <h3>Slack</h3>
-        <p>#cnc</p>
-      </div>
-    </div>
-    <div>
-      <img class="" src="images/zondicons/exclamation-outline.svg" />
-      <div>
-        <h3>Changes needed?</h3>
-        <p>Update this sign at medlem.makerspace.se/sign/404</p>
-      </div>
-    </div>
-  </div>
-);
+    );
+  }
+}
 
 function PreviewSection(section: Section) : JSX.Element {
   if (!section.enabled) return;
@@ -106,6 +192,7 @@ function PreviewSection(section: Section) : JSX.Element {
   else if (section instanceof SectionFreeText) return PreviewSectionFreeText({ section });
   //else if (section instanceof SectionOutOfOrder) return PreviewSectionOutOfOrder({ section });
   else if (section instanceof SectionSafety) return PreviewSectionSafety({ section });
+  else if (section instanceof SectionCleanup) return PreviewSectionCleanup({ section });
   else throw new Error("Unexpected section type " + typeof(section));
 }
 
@@ -124,12 +211,16 @@ export const PreviewSign = ({ sign }: { sign: Sign }) => {
   const arr = [
     sections.allowedMaterials,
     sections.prohibitedMaterials,
-    sections.quickStart
+    sections.quickStart,
+    sections.safety,
+    sections.cleanup,
   ];
-  return (<div class="sign-root">
-    <SignHeader sign={sign} />
-    <SignAccess sign={sign} />
-    {arr.map(PreviewSection)}
-    <PreviewSignFooter sign={sign} />
-  </div>);
+  return (
+    <div class="sign-root">
+      <SignHeader sign={sign} />
+      <SignAccess sign={sign} />
+      {arr.map(PreviewSection)}
+      <PreviewSignFooter sign={sign} />
+    </div>
+  );
 };

@@ -1,6 +1,6 @@
 import { render, Component } from 'inferno';
-import { SafetyIcon, MaterialIcon, Material, Access, Sign, Section, SectionOutOfOrder, SectionSafety, SectionMaterials, SectionFreeText, SafetyItem } from './data';
-import { materialIcon2svg, ColorClass } from './view_common';
+import { SafetyIcon, Material, Access, Sign, Section, SectionOutOfOrder, SectionSafety, SectionMaterials, SectionFreeText, SafetyItem, SectionCleanup, CleanupItem } from './data';
+import { safetyIcon2name, iconDelete, ColorClass } from './view_common';
 
 type OnChange = () => void;
 type OnChangeBool = (value: boolean) => void;
@@ -24,14 +24,9 @@ const SettingsSectionGroup = ({name, children, enabled = true, onChangeEnabled }
 }
 
 const SettingsMaterial = ({material, onChange} : {material: Material, onChange: OnChange}) => {
-    const materialIcons = Object.keys(MaterialIcon).map((k: any) => MaterialIcon[k] as any).filter(k => typeof k === "number") as number[];
-
     return (
-        <div>
-            <select value={material.icon} onInput={ (e: Event) => { material.icon = Number((e.target as HTMLSelectElement).value) as MaterialIcon; onChange(); }}>
-                { materialIcons.map(v => (<option value={v}>{MaterialIcon[v]}</option>))  }
-            </select>
-            <input type="text" placeholder={MaterialIcon[material.icon]} onInput={(e: Event) => { material.label = (e.target as HTMLInputElement).value; onChange(); }} />
+        <div class="selection-row">
+            <input type="text" placeholder="Material name" value={material.label} onInput={(e: Event) => { material.label = (e.target as HTMLInputElement).value; onChange(); }} />
         </div>
     );
 };
@@ -39,7 +34,7 @@ const SettingsMaterial = ({material, onChange} : {material: Material, onChange: 
 const SettingsSectionMaterials = ({section, onChange}: {section: SectionMaterials, onChange: OnChange}) => (
     <SettingsSectionGroup name={section.defaultHeader()} enabled={section.enabled} onChangeEnabled={v => { section.enabled = v; onChange(); }} >
         { section.materials.map(v => SettingsMaterial({material: v, onChange})) }
-        <button onClick={ () => { section.materials.push(new Material(MaterialIcon.SafetyGlasses)); onChange(); }}>Add material</button>
+        <button onClick={ () => { section.materials.push( { label: "" }); onChange(); }}>Add material</button>
     </SettingsSectionGroup>
 );
 
@@ -48,31 +43,48 @@ const SettingsSectionFreeText = ({section, onChange}: {section: SectionFreeText,
     enabled={section.enabled}
     name={ section.header() }
     onChangeEnabled={v => { section.enabled = v; onChange(); }} >
-    {section.contents}
+    <textarea placeholder="Contents..." value={section.contents} onInput={(e: Event) => { section.contents = (e.target as HTMLInputElement).value; onChange(); }} />
   </SettingsSectionGroup>);
 }
 
-const SettingsSafetyItem = ({item, onChange} : {item: SafetyItem, onChange: OnChange}) => {
+const SettingsSafetyItem = ({item, onChange, onDelete} : {item: SafetyItem, onChange: OnChange, onDelete: ()=>void }) => {
     const safetyIcons = Object.keys(SafetyIcon).map((k: any) => SafetyIcon[k] as any).filter(k => typeof k === "number") as number[];
 
     return (
-        <div>
+        <div class="selection-row">
             <select value={item.icon} onInput={ (e: Event) => { item.icon = Number((e.target as HTMLSelectElement).value) as SafetyIcon; onChange(); }}>
-                { safetyIcons.map(v => (<option value={v}>{SafetyIcon[v]}</option>))  }
+                { safetyIcons.map(v => (<option value={v}>{safetyIcon2name[v]}</option>))  }
             </select>
-            <input type="text" placeholder={SafetyIcon[item.icon]} onInput={(e: Event) => { item.label = (e.target as HTMLInputElement).value; onChange(); }} />
+            <input type="text" placeholder={safetyIcon2name[item.icon]} value={item.label} onInput={(e: Event) => { item.label = (e.target as HTMLInputElement).value; onChange(); }} />
+            <button onClick={ onDelete }><img class="invert" src={iconDelete} /></button>
         </div>
     );
 };
 
+function removeFromArray<T>(arr: Array<T>, item: T) {
+    const i = arr.indexOf(item);
+    if (i != -1) arr.splice(i, 1);
+}
+
 const SettingsSectionSafety = ({section, onChange}: {section: SectionSafety, onChange: OnChange}) => (
     <SettingsSectionGroup name={section.defaultHeader()} enabled={section.enabled} onChangeEnabled={v => { section.enabled = v; onChange(); }} >
-        { section.icons.map(item => SettingsSafetyItem({item, onChange})) }
-        <button onClick={ () => { section.icons.push(new SafetyItem(SafetyIcon.SafetyGlasses)); onChange(); }}>Add safety</button>
+        { section.icons.map(item => SettingsSafetyItem({item, onChange, onDelete: () => { removeFromArray(section.icons, item), onChange() }})) }
+        <button onClick={ () => { section.icons.push({ icon: SafetyIcon.SafetyGlasses, label: "" }); onChange(); }}>Add safety icon</button>
     </SettingsSectionGroup>
 );
 
+const SettingsCleanupItem = ({item, onChange} : {item: CleanupItem, onChange: OnChange}) => (
+    <div class="selection-row">
+        <input type="text" placeholder="Cleanup task" value={item.label} onInput={(e: Event) => { item.label = (e.target as HTMLInputElement).value; onChange(); }} />
+    </div>
+);
 
+const SettingsSectionCleanup = ({section, onChange}: {section: SectionCleanup, onChange: OnChange}) => (
+    <SettingsSectionGroup name={section.defaultHeader()} enabled={section.enabled} onChangeEnabled={v => { section.enabled = v; onChange(); }} >
+        { section.items.map(item => SettingsCleanupItem({item, onChange})) }
+        <button onClick={ () => { section.items.push({ label: "" }); onChange(); }}>Add cleanup item</button>
+    </SettingsSectionGroup>
+);
 
 
 const accessMessage : {[id: number]: string} = {};
@@ -85,8 +97,8 @@ const SignHeader = ({sign, onChange}: {sign: Sign, onChange: OnChange}) => {
   const accessLevels = Object.keys(Access).map((k: any) => Access[k] as any).filter(k => typeof k === "number") as number[];
 
   return (<SettingsSectionGroup name="Machine">
-    <input type="text" placeholder="Machine name" onInput={(e:Event) => { sign.name = (e.target as HTMLInputElement).value; onChange(); }} />
-    <input type="text" placeholder="Machine model" onInput={(e:Event) => { sign.model = (e.target as HTMLInputElement).value; onChange(); }} />
+    <input type="text" placeholder="Machine name" value={sign.name} onInput={(e:Event) => { sign.name = (e.target as HTMLInputElement).value; onChange(); }} />
+    <input type="text" placeholder="Machine model" value={sign.model} onInput={(e:Event) => { sign.model = (e.target as HTMLInputElement).value; onChange(); }} />
     <select value={sign.access} onInput={ (e: Event) => { sign.access = Number((e.target as HTMLSelectElement).value) as Access; onChange(); }}>
         { accessLevels.map(v => (<option value={v}>{accessMessage[v]}</option>))  }
     </select>
@@ -99,34 +111,61 @@ const SignOutOfOrder = ({sign, onChange}: {sign: Sign, onChange: OnChange}) => (
         enabled={sign.outOfOrder}
         name="Out Of Order"
         onChangeEnabled={v => { sign.outOfOrder = v; onChange(); }} >
-        <input type="text" placeholder="Reason..." onInput={(e:Event) => { sign.outOfOrderReason = (e.target as HTMLInputElement).value; onChange(); }} />
+        <input type="text" placeholder="Reason..." value={sign.outOfOrderReason} onInput={(e:Event) => { sign.outOfOrderReason = (e.target as HTMLInputElement).value; onChange(); }} />
     </SettingsSectionGroup>
 );
 
-const SettingsSignFooter = ({sign, onChange}: {sign: Sign, onChange: OnChange}) => (
-  <p>Footer</p>
-);
+function setSlackChannel(sign: Sign, channel: string) {
+    sign.slackChannel = channel.replace(/#/g, "");
+}
+
+function setWikiURL(sign: Sign, url: string) {
+    sign.wikiURL = url.trim();
+}
+
+const SettingsSignFooter = ({sign, onChange}: {sign: Sign, onChange: OnChange}) => {
+    return (<SettingsSectionGroup name="Footer">
+        <input type="text" placeholder="Wiki URL" value={sign.wikiURL} onInput={(e:Event) => { setWikiURL(sign, (e.target as HTMLInputElement).value); onChange(); }} />
+        <input type="text" placeholder="Slack Channel" value={sign.slackChannel} onInput={(e:Event) => { setSlackChannel(sign, (e.target as HTMLInputElement).value); onChange(); }} />
+  </SettingsSectionGroup>);
+};
 
 function SettingsSection(section: Section, onChange: OnChange) : JSX.Element {
   if (section instanceof SectionMaterials) return SettingsSectionMaterials({ section, onChange });
   else if (section instanceof SectionFreeText) return SettingsSectionFreeText({ section, onChange });
   //else if (section instanceof SectionOutOfOrder) return SettingsSectionOutOfOrder({ section });
   else if (section instanceof SectionSafety) return SettingsSectionSafety({ section, onChange });
+  else if (section instanceof SectionCleanup) return SettingsSectionCleanup( { section, onChange });
   else throw new Error("Unexpected section type " + typeof(section));
 }
 
-export const SettingsSign = ({ sign, onChange }: { sign: Sign, onChange: OnChange }) => {
+function SettingsSave({ onSave, onDelete }: { onSave: ()=>void, onDelete: ()=>void }) {
+    return (
+        <SettingsSectionGroup
+            enabled={true}
+            name="Save"
+            onChangeEnabled={null} >
+            <button onClick={onDelete}>Delete</button>
+            <button onClick={onSave}>Save</button>
+        </SettingsSectionGroup>
+    )
+}
+
+export const SettingsSign = ({ sign, onChange, onSave, onDelete }: { sign: Sign, onChange: OnChange, onSave: ()=>void, onDelete: ()=>void }) => {
   const sections = sign.sections;
   const arr = [
     sections.allowedMaterials,
     sections.prohibitedMaterials,
-    sections.quickStart
+    sections.quickStart,
+    sections.safety,
+    sections.cleanup
   ];
   return (<div class="sign-root">
     <SignHeader sign={sign} onChange={onChange} />
     <SignOutOfOrder sign={sign}  onChange={onChange} />
     {arr.map(s => SettingsSection(s, onChange))}
     <SettingsSignFooter sign={sign} onChange={onChange} />
+    <SettingsSave onSave={onSave} onDelete={onDelete} />
   </div>);
 };
 
