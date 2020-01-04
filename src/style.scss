@@ -266,6 +266,38 @@ img.invert {
 	filter: invert(100%);
 }
 
+.item-list-horizontal-small {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	justify-content: flex-start;
+	padding-left: 5mm;
+	padding-right: 5mm;
+	padding-top: 1mm;
+	padding-bottom: 2mm;
+
+	div {
+		width: 60mm;
+		margin-left: 1mm;
+		margin-right: 3mm;
+		display: flex;
+		flex-direction: row;
+		flex-wrap: nowrap;
+		align-items: center;
+
+		img {
+			align-self: center;
+			height: 5mm;
+		}
+
+		p {
+			margin-bottom: 1mm;
+			margin-top: 2mm;
+			margin-left: 4mm;
+		}
+	}
+}
+
 .item-list {
 	display: flex;
 	flex-direction: row;

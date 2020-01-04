@@ -18,11 +18,11 @@ const PreviewSectionGroup = ({className, name, children}: {className: string, na
   </div>
 );
 
-const PreviewSectionMaterials = ({section}: {section: SectionMaterials}) => (
+const PreviewSectionMaterials = ({section, useHorizontalList}: {section: SectionMaterials, useHorizontalList : boolean}) => (
   <PreviewSectionGroup
     className={`sign-materials-${section.allowed ? "allowed" : "prohibited"}`}
     name={ section.header() }>
-      <div class="item-list">
+      <div class={ useHorizontalList  ? "item-list-horizontal-small" : "item-list" }>
         {section.materials.map(item => PreviewMaterial(item, section.allowed))}
       </div>
   </PreviewSectionGroup>
@@ -185,10 +185,10 @@ class PreviewSignFooter extends Component {
   }
 }
 
-function PreviewSection(section: Section) : JSX.Element {
+function PreviewSection(section: Section, useHorizontalList: boolean) : JSX.Element {
   if (!section.enabled) return;
 
-  if (section instanceof SectionMaterials) return PreviewSectionMaterials({ section });
+  if (section instanceof SectionMaterials) return PreviewSectionMaterials({ section, useHorizontalList });
   else if (section instanceof SectionFreeText) return PreviewSectionFreeText({ section });
   //else if (section instanceof SectionOutOfOrder) return PreviewSectionOutOfOrder({ section });
   else if (section instanceof SectionSafety) return PreviewSectionSafety({ section });
@@ -208,6 +208,10 @@ export const PreviewSign = ({ sign }: { sign: Sign }) => {
   }
 
   const sections = sign.sections;
+  let useHorizontalList = Math.max((sections.prohibitedMaterials.enabled ? sections.prohibitedMaterials.materials.length : 0), (sections.allowedMaterials.enabled ? sections.allowedMaterials.materials.length : 0)) > 4;
+  useHorizontalList = useHorizontalList || (sections.prohibitedMaterials.enabled && sections.prohibitedMaterials.materials.some(v => v.label.length > 22));
+  useHorizontalList = useHorizontalList || (sections.allowedMaterials.enabled && sections.allowedMaterials.materials.some(v => v.label.length > 22));
+
   const arr = [
     sections.safety,
     sections.allowedMaterials,
@@ -219,7 +223,7 @@ export const PreviewSign = ({ sign }: { sign: Sign }) => {
     <div class="sign-root">
       <SignHeader sign={sign} />
       <SignAccess sign={sign} />
-      {arr.map(PreviewSection)}
+      {arr.map(section => PreviewSection(section, useHorizontalList))}
       <PreviewSignFooter sign={sign} />
     </div>
   );
