@@ -189,7 +189,7 @@ class PreviewSignFooter extends Component {
         {
           this.props.sign.paperSize == PaperSize.A5 ? (
             <div class="sign-footer-tiny">
-              <p>Changes needed? Update this sign at makersign.arongranberg.com/{this.props.id}</p>
+              <p>Changes needed? Update this sign at medlem.makerspace.se/sign/{this.props.id}</p>
             </div>
           ) : null
         }
@@ -215,7 +215,7 @@ export const PreviewSign = ({ sign, id }: { sign: Sign, id: number }) => {
       <div class="sign-root">
         <SignHeader sign={sign} />
         <SignOutOfOrder sign={sign} />
-        <PreviewSignFooter sign={sign} />
+        <PreviewSignFooter sign={sign} id={id} />
       </div>
     );
   }
