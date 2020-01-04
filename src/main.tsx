@@ -186,7 +186,7 @@ export class App extends Component {
                         </div>
                     </div>
                     <div id="preview">
-                        <PreviewSign sign={this.state.sign} />
+                        <PreviewSign sign={this.state.sign} id={this.state.id} />
                     </div>
                 </div>
             );

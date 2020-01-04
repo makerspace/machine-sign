@@ -180,7 +180,7 @@ class PreviewSignFooter extends Component {
               <img class="" src="static/images/zondicons/exclamation-outline.svg" />
               <div>
                 <h3>Changes needed?</h3>
-                <p>Update this sign at medlem.makerspace.se/sign/404</p>
+                <p>Update this sign at<br/>medlem.makerspace.se/sign/{this.props.id}</p>
               </div>
             </div>)
             : null
@@ -189,7 +189,7 @@ class PreviewSignFooter extends Component {
         {
           this.props.sign.paperSize == PaperSize.A5 ? (
             <div class="sign-footer-tiny">
-              <p>Changes needed? Update this sign at medlem.makerspace.se/sign/404</p>
+              <p>Changes needed? Update this sign at makersign.arongranberg.com/{this.props.id}</p>
             </div>
           ) : null
         }
@@ -209,7 +209,7 @@ function PreviewSection(section: Section, useHorizontalList: boolean) : JSX.Elem
   else throw new Error("Unexpected section type " + typeof(section));
 }
 
-export const PreviewSign = ({ sign }: { sign: Sign }) => {
+export const PreviewSign = ({ sign, id }: { sign: Sign, id: number }) => {
   if (sign.outOfOrder) {
     return (
       <div class="sign-root">
@@ -237,7 +237,7 @@ export const PreviewSign = ({ sign }: { sign: Sign }) => {
       <SignHeader sign={sign} />
       <SignAccess sign={sign} />
       {arr.map(section => PreviewSection(section, useHorizontalList))}
-      <PreviewSignFooter sign={sign} />
+      <PreviewSignFooter sign={sign} id={id} />
     </div>
   );
 };
