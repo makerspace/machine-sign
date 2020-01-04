@@ -50,14 +50,14 @@ body {
 }
 
 #preview .sign-root {
-	padding-left: 3mm;
-	padding-right: 3mm;
-	padding-top: 3mm;
+	padding-left: 5mm;
+	padding-right: 5mm;
+	padding-top: 5mm;
 	padding-bottom: 5mm;
 	border-radius: 4px;
 	overflow: hidden;
-	width: 210mm - 2*3mm;
-	height: 296.9mm - 3mm;
+	width: 210mm - 2*5mm;
+	height: 296.9mm - 2*5mm;
 	color: white;
 	background: $background;
 	display: flex;
