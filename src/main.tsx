@@ -7,9 +7,6 @@ import "classcat"
 import { SettingsSign } from './view_settings';
 import { debounce } from 'ts-debounce';
 
-
-console.log("Hi");
-
 function initializeWithJson(obj: any, json: any) {
     // TODO: Handle list
     for(var prop in obj) {

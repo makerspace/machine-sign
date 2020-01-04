@@ -1,5 +1,5 @@
-import { render, Component } from 'inferno';
-import { SafetyIcon, SafetyItem, Material, Access, Sign, Section, SectionOutOfOrder, SectionSafety, SectionMaterials, SectionFreeText, SectionCleanup } from './data';
+import { render, Component, Fragment } from 'inferno';
+import { SafetyIcon, SafetyItem, Material, Access, Sign, Section, SectionOutOfOrder, SectionSafety, SectionMaterials, SectionFreeText, SectionCleanup, PaperSize } from './data';
 import { safetyIcon2svg, safetyIcon2name, iconCleanup, ColorClass, iconAllowedMaterial, iconProhibitedMaterial } from './view_common';
 import * as QRCode from 'qrcode';
 
@@ -158,29 +158,42 @@ class PreviewSignFooter extends Component {
 
   render() {
     return (
-      <div class="sign-footer">
-        <div>
-          <img src={ this.state.qrData } />
+      <Fragment>
+        <div class="sign-footer">
           <div>
-            <h3>Wiki</h3>
-            <p>{ this.props.sign.wikiURL ? this.props.sign.wikiURL.replace("http://", "").replace("https://", "") : "No wiki page, you should create one!" }</p>
+            <img src={ this.state.qrData } />
+            <div>
+              <h3>Wiki</h3>
+              <p>{ this.props.sign.wikiURL ? this.props.sign.wikiURL.replace("http://", "").replace("https://", "") : "No wiki page, you should create one!" }</p>
+            </div>
           </div>
-        </div>
-        <div>
-          <img src="https://cdn4.iconfinder.com/data/icons/logos-and-brands/512/306_Slack_logo-512.png" />
-          <div>
-            <h3>Slack</h3>
-            <p>#{ this.props.sign.slackChannel || "general" }</p>
+          <div class={this.props.sign.paperSize == PaperSize.A5 ? "footer-item-right" : ""}>
+            <img src="https://cdn4.iconfinder.com/data/icons/logos-and-brands/512/306_Slack_logo-512.png" />
+            <div>
+              <h3>Slack</h3>
+              <p>#{ this.props.sign.slackChannel || "general" }</p>
+            </div>
           </div>
+          {
+            this.props.sign.paperSize == PaperSize.A4 ? (
+            <div>
+              <img class="" src="static/images/zondicons/exclamation-outline.svg" />
+              <div>
+                <h3>Changes needed?</h3>
+                <p>Update this sign at medlem.makerspace.se/sign/404</p>
+              </div>
+            </div>)
+            : null
+          }
         </div>
-        <div>
-          <img class="" src="static/images/zondicons/exclamation-outline.svg" />
-          <div>
-            <h3>Changes needed?</h3>
-            <p>Update this sign at medlem.makerspace.se/sign/404</p>
-          </div>
-        </div>
-      </div>
+        {
+          this.props.sign.paperSize == PaperSize.A5 ? (
+            <div class="sign-footer-tiny">
+              <p>Changes needed? Update this sign at medlem.makerspace.se/sign/404</p>
+            </div>
+          ) : null
+        }
+      </Fragment>
     );
   }
 }
@@ -220,7 +233,7 @@ export const PreviewSign = ({ sign }: { sign: Sign }) => {
     sections.cleanup,
   ];
   return (
-    <div class="sign-root">
+    <div class={"sign-root " + (sign.paperSize == PaperSize.A4 ? "a4" : "a5")}>
       <SignHeader sign={sign} />
       <SignAccess sign={sign} />
       {arr.map(section => PreviewSection(section, useHorizontalList))}

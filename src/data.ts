@@ -3,8 +3,17 @@ export enum SafetyIcon {
     HearingProtection,
     ProtectiveGloves,
     SafetyGlasses,
+    FaceShield,
+    GasMask,
+    TightClothing,
+    GenericNo,
+    GenericOK,
 }
 
+export enum PaperSize {
+    A4,
+    A5,
+}
 
 export interface Material {
     label: string;
@@ -35,6 +44,7 @@ export class Sign {
     outOfOrderReason: string = "";
     wikiURL: string = "";
     slackChannel: string = "";
+    paperSize: PaperSize = PaperSize.A4;
     sections: Sections = new Sections();
 }
 

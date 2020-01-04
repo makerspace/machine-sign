@@ -1,5 +1,5 @@
 import { render, Component, Fragment } from 'inferno';
-import { SafetyIcon, Material, Access, Sign, Section, SectionOutOfOrder, SectionSafety, SectionMaterials, SectionFreeText, SafetyItem, SectionCleanup, CleanupItem } from './data';
+import { SafetyIcon, Material, Access, Sign, Section, SectionOutOfOrder, SectionSafety, SectionMaterials, SectionFreeText, SafetyItem, SectionCleanup, CleanupItem, PaperSize } from './data';
 import { safetyIcon2name, iconDelete, ColorClass } from './view_common';
 
 type OnChange = () => void;
@@ -125,6 +125,15 @@ function setWikiURL(sign: Sign, url: string) {
     sign.wikiURL = url.trim();
 }
 
+const SettingsSignMeta = ({sign, onChange}: {sign: Sign, onChange: OnChange}) => {
+    const paperSizes = Object.keys(PaperSize).map((k: any) => PaperSize[k] as any).filter(k => typeof k === "number") as number[];
+    return (<SettingsSectionGroup name="Sign">
+        <select value={sign.paperSize} onInput={ (e: Event) => { sign.paperSize = Number((e.target as HTMLSelectElement).value) as PaperSize; onChange(); }}>
+        { paperSizes.map(v => (<option value={v}>{PaperSize[v]}</option>))  }
+    </select>
+  </SettingsSectionGroup>);
+};
+
 const SettingsSignFooter = ({sign, onChange}: {sign: Sign, onChange: OnChange}) => {
     return (<SettingsSectionGroup name="Footer">
         <input type="text" placeholder="Wiki URL" value={sign.wikiURL} onInput={(e:Event) => { setWikiURL(sign, (e.target as HTMLInputElement).value); onChange(); }} />
@@ -164,6 +173,7 @@ export const SettingsSign = ({ sign, onChange, onSave, onDelete, autosaved }: { 
   ];
   return (<Fragment>
     <SignHeader sign={sign} onChange={onChange} />
+    <SettingsSignMeta sign={sign} onChange={onChange} />
     <SignOutOfOrder sign={sign}  onChange={onChange} />
     {arr.map(s => SettingsSection(s, onChange))}
     <SettingsSignFooter sign={sign} onChange={onChange} />

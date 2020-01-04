@@ -53,6 +53,7 @@ body {
 	padding-left: 3mm;
 	padding-right: 3mm;
 	padding-top: 3mm;
+	padding-bottom: 5mm;
 	border-radius: 4px;
 	overflow: hidden;
 	width: 210mm - 2*3mm;
@@ -179,7 +180,6 @@ body {
 		flex-grow: 0;
 		flex-wrap: wrap;
 		padding-top: 5mm;
-		padding-bottom: 5mm;
 
 		div {
 			max-width: 75mm;
@@ -216,7 +216,6 @@ body {
 				p {
 					width: 100%;
 					margin: 0mm;
-					text-align: left;
 					font-size: 10pt;
 					overflow-wrap: anywhere;
 					word-break: break-all;
@@ -564,4 +563,79 @@ div.sign-selector {
 		flex-direction: row;
 		width: unset;
 	}	
+}
+
+#preview .sign-root.a5  {
+	width: 148mm - 3mm;
+	height: 210mm - 2*3mm;
+	padding-bottom: 4mm;
+
+	h1 {
+		font-size: 14pt;
+	}
+
+	h2 {
+		font-size: 12pt;
+		padding: 1mm 5mm;
+	}
+
+	.sign-access-label {
+		margin: 2mm;
+		font-size: 14pt;
+	}
+
+	p {
+		font-size: 11pt;
+	}
+
+	.item-list-horizontal-small {
+		div {
+			width: 40mm;
+		}
+
+		img {
+			height: 5mm;
+		}
+	}
+
+	.item-list {
+		img {
+			height: 6mm;
+		}
+	}
+
+	.sign-name {
+		padding: 2mm 5mm 2mm 5mm;
+	}
+
+	#machine-model {
+		font-size: 11pt;
+		margin-left: 0mm;
+	}
+
+	.sign-footer {
+		div {
+			max-width: unset;
+		}
+
+		>div:last-child {
+			flex-direction: row-reverse;
+			div {
+				text-align: right;
+				margin-right: 2mm;
+				align-items: flex-end;
+			}
+		}
+	}
+}
+
+#preview .sign-root .sign-footer-tiny {
+	color: #666;
+	text-align: center;
+	
+	p {
+		font-size: 9pt;
+		margin: 0mm;
+		margin-top: 1mm;
+	}
 }
