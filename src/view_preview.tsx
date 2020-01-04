@@ -65,7 +65,7 @@ const PreviewSectionCleanup = ({section}: {section: SectionCleanup}) => (
   <PreviewSectionGroup
     className="sign-cleanup"
     name={ section.header() }>
-      <div class="item-list-horizontal">
+      <div class="item-list-horizontal-small">
         {section.items.map(PreviewCleanupItem) }
       </div>
   </PreviewSectionGroup>
