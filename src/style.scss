@@ -187,7 +187,7 @@ body {
 		justify-content: space-between;
 		justify-items: start;
 		flex-grow: 0;
-		flex-wrap: wrap;
+		flex-wrap: nowrap;
 		padding-top: 5mm;
 
 		div {
@@ -640,7 +640,7 @@ div.sign-selector {
 	}
 }
 
-pre {
+.pre {
 	white-space: pre;
 }
 
