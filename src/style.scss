@@ -2,8 +2,8 @@ $green: hsl(130, 74%, 36%);
 $green-dark: hsl(130, 67%, 28%);
 $yellow: hsl(49, 87%, 40%);
 $yellow-dark: hsl(49, 67%, 28%);
-$orange: hsl(19, 87%, 40%);
-$orange-dark: hsl(19, 79%, 34%);
+$red: hsl(19, 87%, 40%);
+$red-dark: hsl(19, 79%, 34%);
 $orange: hsl(34, 75%, 50%);
 $orange-dark: hsl(34, 75%, 40%);
 $blue: #3898E5;
@@ -121,6 +121,13 @@ body {
 	}
 
 	.sign-access-course {
+		background: $red;
+		h2 {
+			background: $red-dark;
+		}
+	}
+
+	.sign-access-everyone-careful {
 		background: $orange;
 		h2 {
 			background: $orange-dark;
