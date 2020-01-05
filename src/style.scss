@@ -308,7 +308,7 @@ img.invert {
 	padding-bottom: 2mm;
 
 	div {
-		width: 30mm;
+		width: 31.5mm;
 		margin-left: 1mm;
 		margin-right: 1mm;
 		display: flex;
@@ -614,6 +614,8 @@ div.sign-selector {
 	}
 
 	.sign-footer {
+		padding-top: 1mm;
+
 		div {
 			max-width: 90mm;
 		}
