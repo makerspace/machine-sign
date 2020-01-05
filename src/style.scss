@@ -547,6 +547,7 @@ div.sign-selector {
 }
 
 @media only print {
+	
 	#preview .sign-root {
 		border-radius: 0px;
 		background: unset;
@@ -559,12 +560,14 @@ div.sign-selector {
 	
 	#preview {
 		background: unset;
-		padding: 0px;
+		padding: 0mm;
+		margin: 0mm;
+		justify-content: flex-start;
 	}
 	
 	@page {
-		size: A4;
-		margin: 0;
+		size: A4 landscape;
+		margin: 0mm;
 	}
 	
 	.app-root {
@@ -574,10 +577,14 @@ div.sign-selector {
 	}	
 }
 
+#preview {
+	flex-wrap: wrap;
+}
+
 #preview .sign-root.a5  {
-	width: 148mm - 3mm;
-	height: 210mm - 2*3mm;
 	padding-bottom: 4mm;
+	width: 148mm - 2*5mm;
+	height: 210mm - (5mm+4mm);
 
 	h1 {
 		font-size: 14pt;

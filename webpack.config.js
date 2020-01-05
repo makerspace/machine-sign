@@ -11,6 +11,7 @@ module.exports = (env, args) => {
 		context: path.resolve(__dirname),
 		entry: {
 			main: "./src/main.tsx",
+			all: "./src/all.tsx"
 		},
 		
 		output:
