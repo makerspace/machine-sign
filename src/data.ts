@@ -8,6 +8,7 @@ export enum SafetyIcon {
     TightClothing,
     GenericNo,
     GenericOK,
+    WeldingMask,
 }
 
 export enum PaperSize {

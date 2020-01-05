@@ -86,7 +86,7 @@ const SignHeader = ({sign}: {sign: Sign}) => {
 const accessMessage : {[id: number]: string} = {};
 accessMessage[Access.CourseRequired] = "You must complete a course to use this machine";
 accessMessage[Access.UsableByEveryone] = "All members may use this machine";
-accessMessage[Access.UsableByEveryoneCareful] = "All members may use this machine if it can be done in a safe way";
+accessMessage[Access.UsableByEveryoneCareful] = "You may use this machine if you know how to operate it and can do so safely";
 
 const SignAccess = ({sign}: {sign: Sign}) => (
   <PreviewSectionGroup className={ColorClass(sign)} name="Access">
@@ -171,16 +171,16 @@ class PreviewSignFooter extends Component {
             <img src="https://cdn4.iconfinder.com/data/icons/logos-and-brands/512/306_Slack_logo-512.png" />
             <div>
               <h3>Slack</h3>
-              <p>#{ this.props.sign.slackChannel || "general" }</p>
+              <p class="pre">#{ this.props.sign.slackChannel || "general" }</p>
             </div>
           </div>
           {
             this.props.sign.paperSize == PaperSize.A4 ? (
             <div>
-              <img class="" src="static/images/zondicons/exclamation-outline.svg" />
+              <img src="static/images/zondicons/exclamation-outline.svg" />
               <div>
                 <h3>Changes needed?</h3>
-                <p>Update this sign at<br/>medlem.makerspace.se/sign/{this.props.id}</p>
+                <p class="pre">Update this sign at<br/>medlem.makerspace.se/sign/{this.props.id}</p>
               </div>
             </div>)
             : null

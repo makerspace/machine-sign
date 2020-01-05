@@ -9,6 +9,7 @@ safetyIcon2svg[SafetyIcon.GasMask] = "static/images/safety_icons/gas-mask.svg";
 safetyIcon2svg[SafetyIcon.TightClothing] = "static/images/safety_icons/safety-shirt.svg";
 safetyIcon2svg[SafetyIcon.GenericNo] = "static/images/zondicons/close-outline.svg";
 safetyIcon2svg[SafetyIcon.GenericOK] = "static/images/zondicons/checkmark-outline.svg";
+safetyIcon2svg[SafetyIcon.WeldingMask] = "static/images/welding_ISO_7010_M019.svg";
 
 export const safetyIcon2name : { [id: number]: string } = {};
 safetyIcon2name[SafetyIcon.SafetyGlasses] = "Safety Glasses";
@@ -19,6 +20,7 @@ safetyIcon2name[SafetyIcon.GasMask] = "Gas Mask";
 safetyIcon2name[SafetyIcon.TightClothing] = "No loose clothing";
 safetyIcon2name[SafetyIcon.GenericNo] = "Generic No";
 safetyIcon2name[SafetyIcon.GenericOK] = "Generic OK";
+safetyIcon2svg[SafetyIcon.WeldingMask] = "Welding Mask";
 
 export const iconAllowedMaterial = "static/images/zondicons/checkmark-outline.svg";
 export const iconProhibitedMaterial = "static/images/zondicons/close-outline.svg";
