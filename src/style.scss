@@ -301,7 +301,7 @@ img.invert {
 		p {
 			margin-bottom: 1mm;
 			margin-top: 2mm;
-			margin-left: 4mm;
+			margin-left: 3mm;
 		}
 	}
 }
@@ -317,7 +317,7 @@ img.invert {
 	padding-bottom: 2mm;
 
 	div {
-		width: 31.5mm;
+		width: 30mm;
 		margin-left: 1mm;
 		margin-right: 1mm;
 		display: flex;
@@ -546,6 +546,15 @@ div.sign-selector {
 	}
 }
 
+.page {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: nowrap;
+	justify-content: flex-start;
+	height: 209.5mm;
+	page-break-after: always;
+}
+
 @media only print {
 	
 	#preview .sign-root {
@@ -559,22 +568,17 @@ div.sign-selector {
 	}
 	
 	#preview {
+		display: block;
 		background: unset;
 		padding: 0mm;
-		margin: 0mm;
-		justify-content: flex-start;
-	}
-	
-	@page {
-		size: A4 landscape;
 		margin: 0mm;
 	}
 	
 	.app-root {
-		display: flex;
+		display: block;
 		flex-direction: row;
 		width: unset;
-	}	
+	}
 }
 
 #preview {
@@ -582,9 +586,8 @@ div.sign-selector {
 }
 
 #preview .sign-root.a5  {
-	padding-bottom: 4mm;
 	width: 148mm - 2*5mm;
-	height: 210mm - (5mm+4mm);
+	height: 210mm - 2*5mm;
 
 	h1 {
 		font-size: 14pt;
@@ -606,7 +609,7 @@ div.sign-selector {
 
 	.item-list-horizontal-small {
 		div {
-			width: 40mm;
+			width: 38.5mm;
 		}
 
 		img {

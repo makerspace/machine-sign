@@ -23,6 +23,15 @@ function initializeWithJson(obj: any, json: any) {
     }
 }
 
+function groupByTwo<T>(ls: Array<T>) : Array<Array<T>> {
+    const res = [];
+    for (let i = 0; i < ls.length; i += 1) {
+        if (i % 2 == 0) res.push([]);
+        res[res.length-1].push(ls[i]);
+    }
+    return res;
+}
+
 export class App extends Component {
 
     constructor(props: any) {
@@ -56,8 +65,10 @@ export class App extends Component {
             <div class="app-root">
                 <div id="preview">
                 {
-                    this.state.signs.map((sign:any) => (
-                            <PreviewSign sign={sign.sign} id={sign.id} />
+                    groupByTwo(this.state.signs).map(inner => (
+                        <div class="page">
+                            { inner.map((sign:any) => (<PreviewSign sign={sign.sign} id={sign.id} />)) }
+                        </div>
                     ))
                 }
                 </div>
