@@ -189,7 +189,7 @@ class PreviewSignFooter extends Component {
         {
           this.props.sign.paperSize == PaperSize.A5 ? (
             <div class="sign-footer-tiny">
-              <p>Changes needed? Update this sign at sign.arongranberg.com/sign/{this.props.id}</p>
+              <p>Changes needed? Update this sign at sign.arongranberg.com/{this.props.id}</p>
             </div>
           ) : null
         }
