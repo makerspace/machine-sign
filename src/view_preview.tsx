@@ -180,7 +180,7 @@ class PreviewSignFooter extends Component {
               <img src="static/images/zondicons/exclamation-outline.svg" />
               <div>
                 <h3>Changes needed?</h3>
-                <p class="pre">Update this sign at<br/>medlem.makerspace.se/sign/{this.props.id}</p>
+                <p class="pre">Update this sign at<br/>sign.arongranberg.com/{this.props.id}</p>
               </div>
             </div>)
             : null
@@ -189,7 +189,7 @@ class PreviewSignFooter extends Component {
         {
           this.props.sign.paperSize == PaperSize.A5 ? (
             <div class="sign-footer-tiny">
-              <p>Changes needed? Update this sign at medlem.makerspace.se/sign/{this.props.id}</p>
+              <p>Changes needed? Update this sign at sign.arongranberg.com/sign/{this.props.id}</p>
             </div>
           ) : null
         }
