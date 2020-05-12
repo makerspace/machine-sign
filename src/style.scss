@@ -664,3 +664,21 @@ div.sign-selector {
 		margin-top: 1mm;
 	}
 }
+
+.all-root {
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+	font-family: 'Bitter', sans;
+}
+
+.sign-selector-all {
+	display: block;
+
+}
+
+@media only print {
+	.sign-selector-all {
+		display: none;
+	}
+}
