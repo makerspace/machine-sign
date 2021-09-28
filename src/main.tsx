@@ -62,10 +62,12 @@ class SignSelector extends Component {
             <div class="sign-selector">
                 <h1>MakerSign</h1>
                 <ul>
-                    { this.state.signs.map((item: any) => SignItem({ item: item, onOpen: () => this.props.onOpen(item.id) })) }
                     <li onClick={ () => this.props.onOpen(null) }>
                         <span>Create new sign</span>
                     </li>
+                </ul>
+                <ul>
+                    { this.state.signs.map((item: any) => SignItem({ item: item, onOpen: () => this.props.onOpen(item.id) })) }
                 </ul>
             </div>
         )

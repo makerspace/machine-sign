@@ -104,6 +104,7 @@ const SignHeader = ({sign, onChange}: {sign: Sign, onChange: OnChange}) => {
     <select value={sign.access} onInput={ (e: Event) => { sign.access = Number((e.target as HTMLSelectElement).value) as Access; onChange(); }}>
         { accessLevels.map(v => (<option value={v}>{accessMessage[v]}</option>))  }
     </select>
+    <input type="text" placeholder="Course URL" value={sign.courseURL} onInput={(e:Event) => { sign.courseURL = (e.target as HTMLInputElement).value; onChange(); }} />
   </SettingsSectionGroup>);
 }
 

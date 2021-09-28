@@ -41,6 +41,7 @@ export class Sign {
     name: string = "";
     model: string = "";
     access: Access = Access.UsableByEveryone;
+    courseURL: string = "";
     outOfOrder: boolean = false;
     outOfOrderReason: string = "";
     wikiURL: string = "";

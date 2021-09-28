@@ -88,9 +88,60 @@ accessMessage[Access.CourseRequired] = "You must complete a course to use this m
 accessMessage[Access.UsableByEveryone] = "All members may use this machine";
 accessMessage[Access.UsableByEveryoneCareful] = "You may use this machine if you know how to operate it and can do so safely";
 
+class CourseQRCode extends Component {
+  state: any;
+  lastQRUrl: string = null;
+
+  constructor(props: any) {
+    super(props);
+    this.state = { qrData: "" };
+    this.componentDidUpdate(null, null, null);
+  }
+
+  componentDidUpdate(lastProps: any, nextState: any, context: any) {
+    let url = this.props.sign.courseURL.trim();
+    
+    if (url != this.lastQRUrl) {
+      this.lastQRUrl = url;
+
+      if (url == "") {
+        this.setState({ qrData: "" });
+      } else {
+        const opts: any = {
+          errorCorrectionLevel: 'M',
+          type: 'image/png',
+          margin: 1,
+          color: {
+            dark:"#000",
+            light:"#FFF"
+          }
+        }
+
+        QRCode.toDataURL(url, opts).then(data => {
+          this.setState({ qrData: data });
+        });
+      }
+    }
+  }
+
+  render() {
+    if (this.state.qrData != "") {
+      return (
+        <div>
+          <img src={ this.state.qrData } />
+          <h3>Course</h3>
+        </div>
+      )
+    }
+  }
+}
+
 const SignAccess = ({sign}: {sign: Sign}) => (
   <PreviewSectionGroup className={ColorClass(sign)} name="Access">
-    <span class="sign-access-label">{accessMessage[sign.access]}</span>
+    <div class="sign-access">
+      { sign.courseURL != "" ? <CourseQRCode sign={sign} /> : null }
+      <span class="sign-access-label">{accessMessage[sign.access]}</span>
+    </div>
   </PreviewSectionGroup>
 )
 
