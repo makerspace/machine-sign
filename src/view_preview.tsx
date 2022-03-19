@@ -1,5 +1,5 @@
 import { render, Component, Fragment } from 'inferno';
-import { SafetyIcon, SafetyItem, Material, Access, Sign, Section, SectionOutOfOrder, SectionSafety, SectionMaterials, SectionFreeText, SectionCleanup, PaperSize } from './data';
+import { SafetyIcon, SafetyItem, Material, Access, Sign, Section, SectionOutOfOrder, SectionSafety, SectionMaterials, SectionFreeText, SectionCleanup, PaperSize, SectionMaintenance, MaintenanceItem } from './data';
 import { safetyIcon2svg, safetyIcon2name, iconCleanup, ColorClass, iconAllowedMaterial, iconProhibitedMaterial } from './view_common';
 import * as QRCode from 'qrcode';
 
@@ -58,6 +58,25 @@ const PreviewCleanupItem = (item: SafetyItem) => (
   <div>
     <img class="invert" src={ iconCleanup || "" } />
     <p>{item.label || "Untitled task" }</p>
+  </div>
+)
+
+const PreviewSectionMaintenance = ({section}: {section: SectionMaintenance}) => (
+  <PreviewSectionGroup
+    className="sign-maintenance"
+    name={ section.header() }>
+      <div class="item-list-rows">
+        {section.rows.map(PreviewMaintenanceItem) }
+      </div>
+  </PreviewSectionGroup>
+);
+
+
+const PreviewMaintenanceItem = (item: MaintenanceItem) => (
+  <div>
+    <span class="label">{item.label || "No description" }</span>
+    <span class="interval">{item.interval}</span>
+    <span class="maintenance-label-space">Last done</span>
   </div>
 )
 
@@ -256,6 +275,7 @@ function PreviewSection(section: Section, useHorizontalList: boolean) : JSX.Elem
   else if (section instanceof SectionFreeText) return PreviewSectionFreeText({ section });
   //else if (section instanceof SectionOutOfOrder) return PreviewSectionOutOfOrder({ section });
   else if (section instanceof SectionSafety) return PreviewSectionSafety({ section });
+  else if (section instanceof SectionMaintenance) return PreviewSectionMaintenance({ section });
   else if (section instanceof SectionCleanup) return PreviewSectionCleanup({ section });
   else throw new Error("Unexpected section type " + typeof(section));
 }
@@ -282,6 +302,7 @@ export const PreviewSign = ({ sign, id }: { sign: Sign, id: number }) => {
     sections.prohibitedMaterials,
     sections.quickStart,
     sections.cleanup,
+    sections.maintenance,
   ];
   return (
     <div class={"sign-root " + (sign.paperSize == PaperSize.A4 ? "a4" : "a5")}>

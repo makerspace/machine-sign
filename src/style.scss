@@ -688,6 +688,48 @@ div.sign-selector {
 	}
 }
 
+.item-list-rows {
+	display: flex;
+	flex-direction: column;
+	padding-left: 5mm;
+	padding-right: 5mm;
+	padding-top: 3mm;
+	padding-bottom: 2mm;
+
+	div {
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		gap: 2mm;
+
+		span {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+		}
+
+		.label {
+			flex: 2;
+		}
+
+		.interval {
+			width: 2.5cm;
+			background: #555555;
+			border-radius: 1mm;
+			height: 12mm;
+			padding: 2mm;
+			box-sizing: border-box;
+		}
+
+		.maintenance-label-space {
+			background-color:  #555555;
+			border-radius: 1mm;
+			flex: 3;
+			height: 12mm;
+			box-sizing: border-box;
+		}
+	}
+}
 .pre {
 	white-space: pre;
 }
