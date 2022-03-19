@@ -107,7 +107,7 @@ accessMessage[Access.CourseRequired] = "You must complete a course to use this m
 accessMessage[Access.UsableByEveryone] = "All members may use this machine";
 accessMessage[Access.UsableByEveryoneCareful] = "You may use this machine if you know how to operate it and can do so safely";
 
-class CourseQRCode extends Component {
+class CourseQRCode extends Component<{ sign: Sign }, { qrData: string }> {
   state: any;
   lastQRUrl: string = null;
 
@@ -136,7 +136,9 @@ class CourseQRCode extends Component {
           }
         }
 
-        QRCode.toDataURL(url, opts).then(data => {
+        QRCode.toDataURL(url, opts, (e, data) => {
+          // Hack: required when called from constructor
+          this.state.qrData = data;
           this.setState({ qrData: data });
         });
       }
@@ -191,8 +193,7 @@ const SignOutOfOrder = ({sign}: {sign: Sign}) => {
   );
  }
 
-class PreviewSignFooter extends Component {
-  state: any;
+class PreviewSignFooter extends Component<{ sign: Sign, id: number }, { qrData: string }> {
   lastQRUrl: string = null;
 
   constructor(props: any) {
@@ -220,13 +221,17 @@ class PreviewSignFooter extends Component {
         }
       }
 
-      QRCode.toDataURL(url, opts).then(data => {
+      console.log("URL ", url);
+      QRCode.toDataURL(url, opts, (e, data) => {
+        // Hack: required when called from constructor
+        this.state.qrData = data;
         this.setState({ qrData: data });
       });
     }
   }
 
   render() {
+    console.log("Q", this.state.qrData);
     return (
       <Fragment>
         <div class="sign-footer">

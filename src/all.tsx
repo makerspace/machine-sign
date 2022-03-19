@@ -1,5 +1,4 @@
 import './style.scss';
-import { JSON, JsonObject, JsonProperty } from "ta-json";
 import { render, Component } from 'inferno';
 import { PreviewSign } from './view_preview';
 import { Sign, PaperSize } from './data';
@@ -36,8 +35,7 @@ interface SignWithID {
     sign: Sign;
     id: number;
 }
-export class App extends Component {
-    state : { signs: SignWithID[], visible_signs: SignWithID[]};
+export class App extends Component<{}, { signs: SignWithID[], visible_signs: SignWithID[]}>{
 
     constructor(props: any) {
         super(props);

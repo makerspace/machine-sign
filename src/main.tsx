@@ -1,5 +1,5 @@
 import './style.scss';
-import { JSON, JsonObject, JsonProperty } from "ta-json";
+import { JSON } from "ta-json";
 import { render, Component } from 'inferno';
 import { PreviewSign } from './view_preview';
 import { Sign } from './data';
@@ -34,7 +34,7 @@ function SignItem({ item, onOpen }: any) {
     )
 }
 
-class SignSelector extends Component {
+class SignSelector extends Component<any, {signs: Sign[] }> {
     constructor(props: any) {
         super(props);
         this.state = { signs: [] }
@@ -94,7 +94,7 @@ class SignSelectorSmall extends SignSelector {
 // How often to save (at most). In milliseconds
 const SavingInterval = 2000;
 
-export class App extends Component {
+export class App extends Component<any, { sign: Sign | null, id: number | null }> {
     saving: boolean;
     debouncedSave = debounce(() => this.save(), SavingInterval);
 

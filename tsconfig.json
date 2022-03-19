@@ -6,6 +6,7 @@
     "target": "es5",
     "jsx": "preserve",
     "allowJs": true,
+    "moduleResolution": "node",
     "experimentalDecorators": true,
     "types": [
 			"inferno"
