@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { SafetyIcon, Material, Access, Sign, Section, SectionOutOfOrder, SectionSafety, SectionMaterials, SectionFreeText, SafetyItem, SectionCleanup, CleanupItem, PaperSize } from './data';
+import { SafetyIcon, Material, Access, Sign, Section, SectionOutOfOrder, SectionSafety, SectionMaterials, SectionFreeText, SafetyItem, SectionCleanup, CleanupItem, PaperSize, SectionMaintenance, MaintenanceItem } from './data';
 import { safetyIcon2name, iconDelete, ColorClass } from './view_common';
 
 type OnChange = () => void;
@@ -47,6 +47,24 @@ const SettingsSectionFreeText = ({ section, onChange }: { section: SectionFreeTe
         <textarea placeholder="Contents..." value={section.contents} onInput={(e) => { section.contents = (e.target as HTMLInputElement).value; onChange(); }} />
     </SettingsSectionGroup>);
 }
+
+const SettingsSectionMaintenance = ({ section, onChange }: { section: SectionMaintenance, onChange: OnChange }) => {
+    return (<SettingsSectionGroup name={section.defaultHeader()} enabled={section.enabled} onChangeEnabled={v => { section.enabled = v; onChange(); }} >
+        {section.rows.map(item => SettingsMaintenanceItem({ item, onChange, onDelete: () => { removeFromArray(section.rows, item); onChange(); } }))}
+        <button onClick={() => { section.rows.push({ label: "", interval: "Yearly" }); onChange(); }}>Add maintenance item</button>
+    </SettingsSectionGroup>)
+}
+
+const SettingsMaintenanceItem = ({ item, onChange, onDelete }: { item: MaintenanceItem, onChange: OnChange, onDelete: () => void }) => {
+
+    return (
+        <div className="selection-row">
+            <input type="text" placeholder="Description" value={item.label} onInput={e => { item.label = (e.target as HTMLInputElement).value; onChange(); }} />
+            <input type="text" placeholder="Interval" value={item.interval} onInput={e => { item.interval = (e.target as HTMLInputElement).value; onChange(); }} />
+            <button onClick={onDelete} tabIndex={-1}><img className="invert" src={iconDelete} /></button>
+        </div>
+    );
+};
 
 const SettingsSafetyItem = ({ item, onChange, onDelete }: { item: SafetyItem, onChange: OnChange, onDelete: () => void }) => {
     const safetyIcons = Object.keys(SafetyIcon).map((k: any) => SafetyIcon[k] as any).filter(k => typeof k === "number") as number[];
@@ -148,6 +166,7 @@ function SettingsSection({ section, onChange }: { section: Section, onChange: On
     //else if (section instanceof SectionOutOfOrder) return <SettingsSectionOutOfOrder section={section}});
     else if (section instanceof SectionSafety) return <SettingsSectionSafety section={section} onChange={onChange} />;
     else if (section instanceof SectionCleanup) return <SettingsSectionCleanup section={section} onChange={onChange} />;
+    else if (section instanceof SectionMaintenance) return <SettingsSectionMaintenance section={section} onChange={onChange} />;
     else throw new Error("Unexpected section type " + typeof (section));
 }
 
@@ -170,7 +189,8 @@ export const SettingsSign = ({ sign, onChange, onSave, onDelete, autosaved }: { 
         sections.prohibitedMaterials,
         sections.quickStart,
         sections.safety,
-        sections.cleanup
+        sections.cleanup,
+        sections.maintenance
     ];
     return (<>
         <SignHeader sign={sign} onChange={onChange} />

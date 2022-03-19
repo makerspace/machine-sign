@@ -114,6 +114,23 @@ export class SectionFreeText extends Section {
     }
 }
 
+export interface MaintenanceItem {
+    label: string,
+    interval: string,
+}
+
+export class SectionMaintenance extends Section {
+    constructor() {
+        super();
+        this.__type__ = "SectionMaintenance";
+    }
+
+    rows: MaintenanceItem[] = [];
+
+    defaultHeader(): string {
+        return "Maintenance";
+    }
+}
 export class Sections {
     allowedMaterials: SectionMaterials = new SectionMaterials();
     prohibitedMaterials: SectionMaterials = new SectionMaterials();
@@ -121,6 +138,7 @@ export class Sections {
     cleanup: SectionCleanup = new SectionCleanup();
     quickStart: SectionFreeText = new SectionFreeText();
     outOfOrder: SectionOutOfOrder = new SectionOutOfOrder();
+    maintenance: SectionMaintenance = new SectionMaintenance();
 
     constructor() {
         this.allowedMaterials.allowed = true;
