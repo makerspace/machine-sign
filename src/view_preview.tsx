@@ -148,7 +148,7 @@ class CourseQRCode extends Component<{ sign: Sign }, { qrData: string }> {
       return (
         <div>
           <img src={this.state.qrData} />
-          <h3>Course</h3>
+          <h3>Online Course</h3>
         </div>
       )
     }
