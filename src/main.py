@@ -1,5 +1,4 @@
 import sqlite3
-from sqlite3 import Error
 from flask import Flask, g, abort, request, jsonify
 import os
 import json
@@ -124,4 +123,4 @@ if __name__ == '__main__':
     with app.app_context():
         initialize_database(get_db())
     
-    app.run(debug=True)
+    app.run(debug=True, port=8000)

@@ -52,13 +52,13 @@ export class Sign {
 
 export abstract class Section {
     protected __type__ = "Sign";
-    customHeader: string = null;
+    customHeader: string | null = null;
     enabled: boolean = false;
 
     header() {
         return this.customHeader || this.defaultHeader();
     }
-    abstract defaultHeader (): string;
+    abstract defaultHeader(): string;
 }
 
 export class SectionOutOfOrder extends Section {
@@ -67,7 +67,7 @@ export class SectionOutOfOrder extends Section {
         this.__type__ = "SignOutOfOrder";
     }
     reason: string = "";
-    defaultHeader () {
+    defaultHeader() {
         return "Out Of Order";
     }
 }
@@ -78,7 +78,7 @@ export class SectionSafety extends Section {
         this.__type__ = "SectionSafety";
     }
     icons: SafetyItem[] = new Array<SafetyItem>();
-    defaultHeader () {
+    defaultHeader() {
         return "Safety";
     }
 }
@@ -98,7 +98,7 @@ export class SectionMaterials extends Section {
     }
     allowed: boolean = false;
     materials: Material[] = new Array<Material>();
-    defaultHeader () {
+    defaultHeader() {
         return this.allowed ? "Allowed Materials" : "Prohibited Materials";
     }
 }
@@ -109,7 +109,7 @@ export class SectionFreeText extends Section {
         this.__type__ = "SectionFreeText";
     }
     contents: string = "";
-    defaultHeader () {
+    defaultHeader() {
         return "";
     }
 }
@@ -117,10 +117,10 @@ export class SectionFreeText extends Section {
 export class Sections {
     allowedMaterials: SectionMaterials = new SectionMaterials();
     prohibitedMaterials: SectionMaterials = new SectionMaterials();
-    safety : SectionSafety = new SectionSafety();
+    safety: SectionSafety = new SectionSafety();
     cleanup: SectionCleanup = new SectionCleanup();
     quickStart: SectionFreeText = new SectionFreeText();
-    outOfOrder : SectionOutOfOrder = new SectionOutOfOrder();
+    outOfOrder: SectionOutOfOrder = new SectionOutOfOrder();
 
     constructor() {
         this.allowedMaterials.allowed = true;
