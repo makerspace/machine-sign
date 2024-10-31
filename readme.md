@@ -1,26 +1,28 @@
-Makerspace Machine Sign Generator
-=================================
+# Makerspace Machine Sign Generator
 
 Work in progress
 
-Dependencies
-------------
-```
+## Dependencies
+
+```text
 node
 npm
+poetry
 python3
 ```
 
-Usage
------
+## Usage
+
 For now, just run
+
 ```bash
 # Install dependencies
-npm install
-pip3 install -r requirements.txt
-# Build
-npx webpack
-# Run
-python3 src/main.py
+make install
+# Build and run in dev mode
+make dev
+
+# Or in release mode
+make run
 ```
-Open http://localhost:5000/ in a web browser
+
+Open [http://localhost:8000/] in a web browser
