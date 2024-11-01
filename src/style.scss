@@ -63,7 +63,7 @@ body {
 	padding-bottom: 2mm;
 	justify-content: flex-start;
 
-	> div {
+	>div {
 		display: flex;
 		flex-direction: column;
 		align-items: center;
@@ -71,7 +71,7 @@ body {
 		flex-grow: 0;
 	}
 
-	> span {
+	>span {
 		flex-grow: 1;
 	}
 
@@ -147,9 +147,11 @@ body {
 
 	.sign-status-outoforder {
 		background: $grey2;
+
 		h2 {
 			background: $grey2-dark;
 		}
+
 		p {
 			margin: 5mm;
 			display: block;
@@ -160,6 +162,7 @@ body {
 
 	.sign-access-course {
 		background: $red;
+
 		h2 {
 			background: $red-dark;
 		}
@@ -167,27 +170,31 @@ body {
 
 	.sign-access-everyone-careful {
 		background: $orange;
+
 		h2 {
 			background: $orange-dark;
 		}
 	}
-	
+
 	.sign-access-everyone {
 		background: $green;
+
 		h2 {
 			background: $green-dark;
 		}
 	}
 
 	.sign-materials-allowed {
-		background: $green;	
+		background: $green;
+
 		h2 {
 			background: $green-dark;
 		}
 	}
 
 	.sign-materials-prohibited {
-		background: $red;	
+		background: $red;
+
 		h2 {
 			background: $red-dark;
 		}
@@ -195,6 +202,7 @@ body {
 
 	.sign-quickstart {
 		background: $purple;
+
 		h2 {
 			background: $purple-dark;
 		}
@@ -206,19 +214,22 @@ body {
 
 	.sign-safety {
 		background: $blue;
+
 		h2 {
 			background: $blue-dark;
 		}
 	}
-	
+
 	.sign-cleanup {
 		background: $grey2;
+
 		h2 {
 			background: $grey2-dark;
 		}
 	}
 
-	.sign-footer, .sign-outoforder-icons {
+	.sign-footer,
+	.sign-outoforder-icons {
 		display: flex;
 		margin-top: auto;
 		flex-direction: row;
@@ -415,6 +426,8 @@ div.sign-selector {
 	margin-right: auto;
 	//border: 4px solid #469ABE;
 	min-width: 400px;
+	display: flex;
+	flex-direction: column;
 
 	ul {
 		box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.4);
@@ -424,6 +437,8 @@ div.sign-selector {
 		overflow: hidden;
 		list-style: none;
 		padding: 0px;
+		display: flex;
+		flex-direction: column;
 	}
 
 	h1 {
@@ -449,6 +464,16 @@ div.sign-selector {
 		&:hover {
 			background: #07719F;
 		}
+
+		display: flex;
+		flex-direction: row;
+		justify-content: space-between;
+		align-items: center;
+
+		.selector-machine-model {
+			font-size: 9pt;
+			opacity: 80%;
+		}
 	}
 }
 
@@ -457,7 +482,7 @@ div.sign-selector {
 	margin-left: 5mm;
 	margin-right: 5mm;
 	margin-top: 5mm;
-	
+
 	.sign-section {
 		background: $grey2;
 		margin-top: 4px;
@@ -495,7 +520,7 @@ div.sign-selector {
 		input {
 			flex-grow: 1;
 		}
-		
+
 		button {
 			// Delete button
 			display: flex;
@@ -533,7 +558,9 @@ div.sign-selector {
 		}
 	}
 
-	input, select, textarea {
+	input,
+	select,
+	textarea {
 		display: block;
 		margin: 1mm;
 		background: #444;
@@ -596,24 +623,24 @@ div.sign-selector {
 }
 
 @media only print {
-	
+
 	#preview .sign-root {
 		border-radius: 0px;
 		background: unset;
 	}
-	
+
 	#settings {
 		display: none;
-	
+
 	}
-	
+
 	#preview {
 		display: block;
 		background: unset;
 		padding: 0mm;
 		margin: 0mm;
 	}
-	
+
 	.app-root {
 		display: block;
 		flex-direction: row;
@@ -625,7 +652,7 @@ div.sign-selector {
 	flex-wrap: wrap;
 }
 
-#preview .sign-root.a5  {
+#preview .sign-root.a5 {
 	width: 148mm - 2*5mm;
 	height: 210mm - 2*5mm;
 
@@ -681,6 +708,7 @@ div.sign-selector {
 
 		>div:last-child {
 			flex-direction: row-reverse;
+
 			div {
 				text-align: right;
 				margin-right: 2mm;
@@ -724,7 +752,7 @@ div.sign-selector {
 		}
 
 		.maintenance-label-space {
-			background-color:  #555555;
+			background-color: #555555;
 			border-radius: 1mm;
 			flex: 3;
 			height: 12mm;
@@ -732,6 +760,7 @@ div.sign-selector {
 		}
 	}
 }
+
 .pre {
 	white-space: pre;
 }
@@ -739,7 +768,7 @@ div.sign-selector {
 #preview .sign-root .sign-footer-tiny {
 	color: #666;
 	text-align: center;
-	
+
 	p {
 		font-size: 9pt;
 		margin: 0mm;

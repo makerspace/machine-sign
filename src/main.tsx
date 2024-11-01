@@ -27,11 +27,16 @@ function initializeWithJson(obj: any, json: any) {
 
 
 
+interface SignMeta {
+    id: number
+    name: string,
+    model: string,
+}
 
-function SignItem({ item, onOpen }: any) {
+function SignItem({ item, onOpen }: { item: SignMeta, onOpen: () => void }) {
     return (
         <li onClick={onOpen}>
-            <span>{item.name}</span>
+            <span>{item.name}</span>{ }<span className='selector-machine-model'>{item.model}</span>
         </li>
     )
 }
@@ -40,7 +45,7 @@ interface SignSelectorProps {
     selectedId: number | null;
     onOpen: (id: null | number) => void;
 }
-class SignSelector extends Component<SignSelectorProps, { signs: { id: number, name: string }[] }> {
+class SignSelector extends Component<SignSelectorProps, { signs: SignMeta[] }> {
     constructor(props: any) {
         super(props);
         this.state = { signs: [] }
@@ -64,6 +69,7 @@ class SignSelector extends Component<SignSelectorProps, { signs: { id: number, n
     }
 
     override render() {
+        this.state.signs.sort((a, b) => a.name.localeCompare(b.name));
         return (
             <div className="sign-selector">
                 <h1>MakerSign</h1>

@@ -55,10 +55,12 @@ def view_sign(id: int):
 @app.route('/data/signs', methods=["GET"])
 def list_signs():
     c = get_db().cursor()
-    c.execute("SELECT id, name from signs")
+    c.execute("SELECT id, name, data from signs")
+    items = c.fetchall()
+    jsons = [json.loads(item[2]) for item in items]
     return jsonify({
         "status": "ok",
-        "data": [{ "id": v[0], "name": v[1] } for v in c.fetchall()]
+        "data": [{ "id": v[0], "name": v[1], "model": js["model"] } for (v, js) in zip(items, jsons) if "model" in js]
     })
 
 @app.route('/data/signs/<int:id>', methods=["GET"])
