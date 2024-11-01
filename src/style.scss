@@ -31,6 +31,7 @@ body {
 	flex-direction: row;
 	width: 100%;
 	font-family: 'Bitter', sans;
+	margin-bottom: 60px;
 }
 
 #settings {
@@ -116,7 +117,7 @@ body {
 
 	.sign-name {
 		//background: #1877B7;
-		padding: 2mm 5mm 5mm 10mm;
+		padding: 2mm 5mm 1mm 10mm;
 		flex-grow: 0;
 
 		span {
@@ -333,8 +334,11 @@ img.invert {
 	padding-top: 1mm;
 	padding-bottom: 2mm;
 
-	div {
+	&.many div {
 		width: 59mm;
+	}
+
+	div {
 		margin-left: 1mm;
 		margin-right: 3mm;
 		display: flex;
@@ -652,6 +656,11 @@ div.sign-selector {
 	flex-wrap: wrap;
 }
 
+#machine-model {
+	padding-bottom: 2mm;
+	display: block;
+}
+
 #preview .sign-root.a5 {
 	width: 148mm - 2*5mm;
 	height: 210mm - 2*5mm;
@@ -675,7 +684,8 @@ div.sign-selector {
 	}
 
 	.item-list-horizontal-small {
-		div {
+
+		&.many div {
 			width: 38.5mm;
 		}
 
@@ -697,6 +707,7 @@ div.sign-selector {
 	#machine-model {
 		font-size: 11pt;
 		margin-left: 0mm;
+		padding-bottom: 0.5mm;
 	}
 
 	.sign-footer {
@@ -725,6 +736,7 @@ div.sign-selector {
 	padding-right: 5mm;
 	padding-top: 3mm;
 	padding-bottom: 2mm;
+	gap: 1mm;
 
 	div {
 		display: flex;

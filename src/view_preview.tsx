@@ -23,7 +23,7 @@ const PreviewSectionMaterials = ({ section, useHorizontalList }: { section: Sect
   <PreviewSectionGroup
     className={`sign-materials-${section.allowed ? "allowed" : "prohibited"}`}
     name={section.header()}>
-    <div className={useHorizontalList ? "item-list-horizontal-small" : "item-list"}>
+    <div className={(useHorizontalList ? "item-list-horizontal-small " : "item-list ") + (section.materials.length > 1 ? "many" : "")}>
       {section.materials.map((item, i) => <PreviewMaterial key={i} material={item} allowed={section.allowed} />)}
     </div>
   </PreviewSectionGroup>
@@ -85,7 +85,7 @@ const PreviewSectionCleanup = ({ section }: { section: SectionCleanup }) => (
   <PreviewSectionGroup
     className="sign-cleanup"
     name={section.header()}>
-    <div className="item-list-horizontal-small">
+    <div className={"item-list-horizontal-small " + (section.items.length > 1 ? "many" : "")}>
       {section.items.map((item, i) => <PreviewCleanupItem key={i} item={item} />)}
     </div>
   </PreviewSectionGroup>
