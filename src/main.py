@@ -121,8 +121,8 @@ def sign_update(id: int):
     conn.commit()
     return sign(id)
 
+with app.app_context():
+    initialize_database(get_db())
+
 if __name__ == '__main__':
-    with app.app_context():
-        initialize_database(get_db())
-    
     app.run(debug=True, port=8000)
