@@ -10,19 +10,13 @@ const ctx = await esbuild.context({
     target: ['es2020'],
     plugins: [sassPlugin()],
     outdir: './dist/js',
+    logLevel: 'info',
 });
 
-if (prod || true) {
+if (prod) {
     await ctx.rebuild();
     console.log('Build succeeded.');
     process.exit(0);
 } else {
-    let { host, port } = await ctx.serve({
-        servedir: 'dist',
-        onRequest: () => {
-        }
-    });
-
-    console.log('Build succeeded. Serving on http://' + host + ':' + port);
-    console.log("Watching for changes...");
+    await ctx.watch();
 }

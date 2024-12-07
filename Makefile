@@ -1,5 +1,5 @@
 dev: install
-	NODE_ENV=development node build.mjs
+	NODE_ENV=development node build.mjs&
 	cp -r resources/* dist/
 	python3 src/main.py
 
