@@ -170,19 +170,21 @@ function SettingsSection({ section, onChange }: { section: Section, onChange: On
     else throw new Error("Unexpected section type " + typeof (section));
 }
 
-function SettingsSave({ onSave, onDelete, autosaved }: { onSave: () => void, onDelete: () => void, autosaved: boolean }) {
+type SaveState = 'saved' | 'saving' | 'dirty';
+
+function SettingsSave({ onSave, onDelete, autosaved, saving }: { onSave: () => void, onDelete: null | (() => void), autosaved: boolean, saving: SaveState }) {
     return (
         <SettingsSectionGroup
             enabled={true}
             name="Save"
         >
-            <button onClick={onDelete}>Delete</button>
-            <button onClick={onSave}>{autosaved ? "Autosaved" : "Save"}</button>
+            {onDelete && <button onClick={onDelete}>Delete</button>}
+            <button onClick={onSave}>{saving == 'saving' || saving == 'dirty' ? "Saving..." : (autosaved ? "Autosaved" : "Save")}</button>
         </SettingsSectionGroup>
     )
 }
 
-export const SettingsSign = ({ sign, onChange, onSave, onDelete, autosaved }: { sign: Sign, onChange: OnChange, onSave: () => void, onDelete: () => void, autosaved: boolean }) => {
+export const SettingsSign = ({ sign, onChange, onSave, onDelete, autosaved, saving }: { sign: Sign, onChange: OnChange, onSave: () => void, onDelete: null | (() => void), autosaved: boolean, saving: SaveState }) => {
     const sections = sign.sections;
     const arr = [
         sections.allowedMaterials,
@@ -198,7 +200,7 @@ export const SettingsSign = ({ sign, onChange, onSave, onDelete, autosaved }: { 
         <SignOutOfOrder sign={sign} onChange={onChange} />
         {arr.map(s => <SettingsSection key={s.defaultHeader()} section={s} onChange={onChange} />)}
         <SettingsSignFooter sign={sign} onChange={onChange} />
-        <SettingsSave onSave={onSave} onDelete={onDelete} autosaved={autosaved} />
+        <SettingsSave onSave={onSave} onDelete={onDelete} autosaved={autosaved} saving={saving} />
     </>);
 };
 

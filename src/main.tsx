@@ -106,19 +106,18 @@ class SignSelectorSmall extends SignSelector {
 // How often to save (at most). In milliseconds
 const SavingInterval = 2000;
 
-export class App extends Component<{}, { id: number | null, sign: Sign | null }> {
-    saving: boolean = false;
+export class App extends Component<{}, { id: number | null, sign: Sign | null, saving: boolean, dirty: boolean }> {
     debouncedSave = debounce(() => this.save(), SavingInterval);
 
     constructor(props: {}) {
         super(props);
-        this.state = { sign: null, id: null };
+        this.state = { sign: null, id: null, saving: false, dirty: false };
         this.openFromURL();
     }
 
     onChange() {
         console.log("Changed");
-        this.setState({});
+        this.setState({ dirty: true });
         this.debouncedSave();
     }
 
@@ -137,6 +136,7 @@ export class App extends Component<{}, { id: number | null, sign: Sign | null }>
     }
 
     open(id: number | null, pushState: boolean = true) {
+        console.log(id);
         if (this.state.id == id && id !== null) return;
 
         if (id === null) {
@@ -166,7 +166,7 @@ export class App extends Component<{}, { id: number | null, sign: Sign | null }>
 
     save() {
         console.log("Saving");
-        if (this.saving) return;
+        if (this.state.saving) return;
         if (this.state.sign === null) return;
 
         fetch(this.state.id !== null ? `data/signs/${this.state.id}` : 'data/signs', {
@@ -179,9 +179,9 @@ export class App extends Component<{}, { id: number | null, sign: Sign | null }>
             if (this.state.id === null) {
                 history.pushState({}, "", `/${json.data.id}`);
             }
-            this.setState({ id: json.data.id });
+            this.setState({ id: json.data.id, dirty: false });
         }).finally(() => {
-            this.saving = false;
+            this.setState({ saving: false });
         });
     }
 
@@ -190,13 +190,13 @@ export class App extends Component<{}, { id: number | null, sign: Sign | null }>
     }
 
     override render() {
-        if (this.state.sign != null && this.state.id !== null) {
+        if (this.state.sign != null) {
             return (
                 <div className="app-root">
                     <div id="settings">
                         <div className="sign-root">
                             <SignSelectorSmall selectedId={this.state.id} onOpen={(id: number | null) => this.open(id)} />
-                            <SettingsSign sign={this.state.sign} onChange={() => this.onChange()} onSave={() => this.save()} onDelete={() => this.delete()} autosaved={this.state.id !== null} />
+                            <SettingsSign sign={this.state.sign} onChange={() => this.onChange()} onSave={() => this.save()} onDelete={null} autosaved={this.state.id !== null} saving={this.state.saving ? 'saving' : (this.state.dirty ? 'dirty' : 'saved')} />
                         </div>
                     </div>
                     <div id="preview">
