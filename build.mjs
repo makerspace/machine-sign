@@ -3,7 +3,7 @@ import { sassPlugin } from 'esbuild-sass-plugin';
 
 const prod = process.env.NODE_ENV === 'production';
 const ctx = await esbuild.context({
-    entryPoints: ['src/main.tsx'],
+    entryPoints: ['src/main.tsx', 'src/all.tsx'],
     bundle: true,
     minify: prod,
     sourcemap: true,
