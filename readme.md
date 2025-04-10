@@ -1,6 +1,10 @@
 # Makerspace Machine Sign Generator
 
-Work in progress
+Tool for making machine signs for makerspaces.
+
+Developed by [Stockholm Makerspace](https://makerspace.se).
+
+![Screenshot](./docs/screenshot.png)
 
 ## Dependencies
 
